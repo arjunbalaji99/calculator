@@ -130,7 +130,7 @@ public class Operations {
      *
      * @return A double result of the operation
      */
-    public static double getResult(String opName, double[] operands) {
+    public static double getResult(String opName, double[] operands) throws Exception {
         switch (opName) {
 
             case "ADD":
@@ -145,7 +145,8 @@ public class Operations {
             case "DIV":
                 return DIVIDE(operands[0], operands[1]);
 
-
+            default:
+                throw new Exception("Invalid Operation");
         }
     }
 }
