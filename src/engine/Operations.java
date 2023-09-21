@@ -221,4 +221,10 @@ public class Operations {
             throw new IllegalArgumentException("Invalid operands provided for operation " + opName + ". (" + operands.length + " were given)");
         }
     }
+
+    public HashMap<String[], Integer> OperationOrder = new HashMap<String[], Integer>() {{
+        put(new String[] { "EXP", "LOG", "LN", "LOG10" }, 2);
+        put(new String[] { "MULT", "DIV" }, 1);
+        put(new String[] { "ADD", "SUB" }, 0);
+    }};
 }
