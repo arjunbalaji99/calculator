@@ -1,14 +1,18 @@
 package engine;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
+
+class InvalidOperationError {
+
+}
 
 /**
  * __Included operations__
  * + - * /
  * 6 trig functions, 6 inverse trig
  * abs, log, ln, exp, sqrt, mod
- * pi, e,
  */
 public class Operations {
 
@@ -115,10 +119,7 @@ public class Operations {
         return Math.asin(1.0 / x);
     }
 
-    public static double ARCCOT(double x) {
-        return Math.atan(1.0 / x);
-    }
-
+    public static double ARCCOT(double x) { return Math.atan(1.0 / x); }
 
     /**
      *
@@ -145,8 +146,74 @@ public class Operations {
             case "DIV":
                 return DIVIDE(operands[0], operands[1]);
 
+            case "SQRT":
+                return SQRT(operands[0]);
+
+            case "SQUARE":
+                return SQUARE(operands[0]);
+
+            case "CUBE":
+                return CUBE(operands[0]);
+
+            case "CBRT":
+                return CBRT(operands[0]);
+
+            case "MOD":
+                return MOD(operands[0], operands[1]);
+
+            case "LOG10":
+                return LOG10(operands[0]);
+
+            case "LN":
+                return LN(operands[0]);
+
+            case "LOG":
+                return LOG(operands[0], operands[1]);
+
+            case "ABS":
+                return ABS(operands[0]);
+
+            case "EXP":
+                return EXP(operands[0], operands[1]);
+
+            case "SIN":
+                return SIN(operands[0]);
+
+            case "COS":
+                return COS(operands[0]);
+
+            case "TAN":
+                return TAN(operands[0]);
+
+            case "SEC":
+                return SEC(operands[0]);
+
+            case "CSC":
+                return CSC(operands[0]);
+
+            case "COT":
+                return COT(operands[0]);
+
+            case "ARCSIN":
+                return ARCSIN(operands[0]);
+
+            case "ARCCOS":
+                return ARCCOS(operands[0]);
+
+            case "ARCTAN":
+                return ARCTAN(operands[0]);
+
+            case "ARCSEC":
+                return ARCSEC(operands[0]);
+
+            case "ARCCSC":
+                return ARCCSC(operands[0]);
+
+            case "ARCCOT":
+                return ARCCOT(operands[0]);
+
             default:
-                throw new Exception("Invalid Operation");
+                throw new IllegalArgumentException("Invalid operation requested for " + opName + " with operands " + Arrays.toString(operands));
         }
     }
 }
