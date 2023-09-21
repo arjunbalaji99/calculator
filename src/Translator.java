@@ -1,3 +1,5 @@
+import engine.Engine;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,7 +8,16 @@ import java.util.Stack;
 public class Translator {
     // current operations : ADD, SUBTRACT, MULTIPLY, DIVIDE
     public static void main(String[] args) {
-        String input = "3 ADD 4 MULTIPLY 2 DIVIDE 3 SUBTRACT 3 MULTIPLY 4";
+
+        Engine engine = new Engine();
+
+        Scanner in = new Scanner(System.in);
+        System.out.print("Enter an expression to evaluate: ");
+        String input = in.nextLine();
+        if (input.isEmpty()) {
+            input = "3 ADD 4 MULT 2 DIV 3 SUB 3 MULT 4";
+        }
+
         while (true) {
             String[] tokens = input.split(" "); 
             if (tokens.length <= 1) break;
@@ -17,16 +28,13 @@ public class Translator {
             String highestPriorityString = highestPriorityOverall(statements);
             System.out.println(highestPriorityString);
             // can now pass that to engine and get a value, in this example 8
-            Scanner in = new Scanner(System.in);
-            System.out.print("Enter the value of the expression: ");
-            double val = in.nextDouble();
+            // Scanner in = new Scanner(System.in);
+            // System.out.print("Enter the value of the expression: ");
+
+            double val = engine.evaluate(highestPriorityString);
             input = input.replace(highestPriorityString, Double.toString(val));
         } 
         System.out.println(input);
-    }
-
-    public static boolean isOperator(String str) {
-        return str.contains("ADD") || str.contains("SUBTRACT") || str.contains("MULTIPLY") || str.contains("DIVIDE");
     }
 
     public static boolean isNumeric(String str) {
@@ -41,8 +49,10 @@ public class Translator {
     public static String highestPriority(String statement1, String statement2) {
         String[] tokens1 = statement1.split(" "); 
         String operator1 = tokens1[1];
+
         String[] tokens2 = statement2.split(" "); 
         String operator2 = tokens2[1];
+
         if (hasHigherPrecedence(operator2, operator1)) return statement2;
         else return statement1;
     }
@@ -56,12 +66,15 @@ public class Translator {
     // Get the precedence level of an operator
     private static int getOperatorPrecedence(String operator) {
         switch (operator) {
+
             case "ADD":
-            case "SUBTRACT":
+            case "SUB":
                 return 1;
-            case "MULTIPLY":
-            case "DIVIDE":
+
+            case "MULT":
+            case "DIV":
                 return 2;
+
             default:
                 return 0;
         }

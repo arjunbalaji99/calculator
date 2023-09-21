@@ -131,89 +131,94 @@ public class Operations {
      *
      * @return A double result of the operation
      */
-    public static double getResult(String opName, double[] operands) throws Exception {
-        switch (opName) {
+    public static double getResult(String opName, double[] operands) throws IllegalArgumentException {
 
-            case "ADD":
-                return ADD(operands[0], operands[1]);
+        try {
+            switch (opName) {
 
-            case "SUB":
-                return SUBTRACT(operands[0], operands[1]);
+                case "ADD":
+                    return ADD(operands[0], operands[1]);
 
-            case "MULT":
-                return MULTIPLY(operands[0], operands[1]);
+                case "SUB":
+                    return SUBTRACT(operands[0], operands[1]);
 
-            case "DIV":
-                return DIVIDE(operands[0], operands[1]);
+                case "MULT":
+                    return MULTIPLY(operands[0], operands[1]);
 
-            case "SQRT":
-                return SQRT(operands[0]);
+                case "DIV":
+                    return DIVIDE(operands[0], operands[1]);
 
-            case "SQUARE":
-                return SQUARE(operands[0]);
+                case "SQRT":
+                    return SQRT(operands[0]);
 
-            case "CUBE":
-                return CUBE(operands[0]);
+                case "SQUARE":
+                    return SQUARE(operands[0]);
 
-            case "CBRT":
-                return CBRT(operands[0]);
+                case "CUBE":
+                    return CUBE(operands[0]);
 
-            case "MOD":
-                return MOD(operands[0], operands[1]);
+                case "CBRT":
+                    return CBRT(operands[0]);
 
-            case "LOG10":
-                return LOG10(operands[0]);
+                case "MOD":
+                    return MOD(operands[0], operands[1]);
 
-            case "LN":
-                return LN(operands[0]);
+                case "LOG10":
+                    return LOG10(operands[0]);
 
-            case "LOG":
-                return LOG(operands[0], operands[1]);
+                case "LN":
+                    return LN(operands[0]);
 
-            case "ABS":
-                return ABS(operands[0]);
+                case "LOG":
+                    return LOG(operands[0], operands[1]);
 
-            case "EXP":
-                return EXP(operands[0], operands[1]);
+                case "ABS":
+                    return ABS(operands[0]);
 
-            case "SIN":
-                return SIN(operands[0]);
+                case "EXP":
+                    return EXP(operands[0], operands[1]);
 
-            case "COS":
-                return COS(operands[0]);
+                case "SIN":
+                    return SIN(operands[0]);
 
-            case "TAN":
-                return TAN(operands[0]);
+                case "COS":
+                    return COS(operands[0]);
 
-            case "SEC":
-                return SEC(operands[0]);
+                case "TAN":
+                    return TAN(operands[0]);
 
-            case "CSC":
-                return CSC(operands[0]);
+                case "SEC":
+                    return SEC(operands[0]);
 
-            case "COT":
-                return COT(operands[0]);
+                case "CSC":
+                    return CSC(operands[0]);
 
-            case "ARCSIN":
-                return ARCSIN(operands[0]);
+                case "COT":
+                    return COT(operands[0]);
 
-            case "ARCCOS":
-                return ARCCOS(operands[0]);
+                case "ARCSIN":
+                    return ARCSIN(operands[0]);
 
-            case "ARCTAN":
-                return ARCTAN(operands[0]);
+                case "ARCCOS":
+                    return ARCCOS(operands[0]);
 
-            case "ARCSEC":
-                return ARCSEC(operands[0]);
+                case "ARCTAN":
+                    return ARCTAN(operands[0]);
 
-            case "ARCCSC":
-                return ARCCSC(operands[0]);
+                case "ARCSEC":
+                    return ARCSEC(operands[0]);
 
-            case "ARCCOT":
-                return ARCCOT(operands[0]);
+                case "ARCCSC":
+                    return ARCCSC(operands[0]);
 
-            default:
-                throw new IllegalArgumentException("Invalid operation requested for " + opName + " with operands " + Arrays.toString(operands));
+                case "ARCCOT":
+                    return ARCCOT(operands[0]);
+
+                default:
+                    throw new IllegalArgumentException("Invalid operation requested for " + opName + " with operands " + Arrays.toString(operands));
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Invalid operands provided for operation " + opName + ". (" + operands.length + " were given)");
         }
     }
 }
