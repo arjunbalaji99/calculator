@@ -2,28 +2,26 @@ package translator;
 
 import engine.Engine;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class Translator {
     public static Engine engine = new Engine();
 
-    public static String[] singleNumberOperators;
+    public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("ADD", "SUB", "MULT", "DIV", "MOD", "EXP", "LOG"));
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter an expression to evaluate: ");
         String input = in.nextLine();
         if (input.isEmpty()) {
-            input = "3 ADD 4 MULT 2 DIV 3 SUB 3 MULT 4";
+            input = "4 MULT PAR 3 ADD 4 PAR MULT 2 DIV 3 SUB 3 MULT 3 EXP 2";
         }
 
         System.out.println(translate(input));
     }
 
     public static String translate(String input) {
+        input = lookForParentheses(input);
         String[] tokens = input.split(" ");
         if (tokens.length <= 1) return input;
         ArrayList<String> statements = splitStatements(tokens);
@@ -32,11 +30,30 @@ public class Translator {
         return translate(input.replace(highestPriorityString, Double.toString(val)));
     }
 
+    public static String lookForParentheses(String input) {
+        String[] tokens = input.split(" ");
+        for (int i = 0; i < tokens.length; i++) {
+            if (tokens[i].equals("PAR")) {
+                String paranthesesExpression = "";
+                i++;
+                while (!tokens[i].equals("PAR")) {
+                    paranthesesExpression += tokens[i++] + " ";
+                }
+                String val = translate(paranthesesExpression);
+                paranthesesExpression = "PAR " + paranthesesExpression + "PAR ";
+                input = input.replace(paranthesesExpression, val);
+            }
+        }
+        return input;
+    }
+
     public static ArrayList<String> splitStatements(String[] tokens) {
         ArrayList<String> statements = new ArrayList<>();
-        for (String token : tokens) {
-            if (!isNumeric(token)) {
-                System.out.println("testing");
+        for (int i = 0; i < tokens.length; i++) {
+            // means it is an operator
+            if (!isNumeric(tokens[i])) {
+                if (twoNumberOperators.contains(tokens[i])) statements.add(tokens[i - 1] + " " + tokens[i] + " " + tokens[i + 1]);
+                else statements.add(tokens[i] + " " + tokens[i + 1]);
             }
         }
         return statements;
@@ -50,13 +67,16 @@ public class Translator {
             return false;
         }
     }
+
+    public static String getOperator(String statement) {
+        String[] tokens = statement.split(" ");
+        String operator = "";
+        if (tokens.length == 2) return tokens[0];
+        else return tokens[1];
+    }
+
     public static String highestPriority(String statement1, String statement2) {
-        String[] tokens1 = statement1.split(" "); 
-        String operator1 = tokens1[1];
-
-        String[] tokens2 = statement2.split(" "); 
-        String operator2 = tokens2[1];
-
+        String operator1 = getOperator(statement1), operator2 = getOperator(statement2);
         if (hasHigherPrecedence(operator2, operator1)) return statement2;
         else return statement1;
     }
@@ -73,12 +93,11 @@ public class Translator {
             case "ADD":
             case "SUB":
                 return 1;
-
             case "MULT":
             case "DIV":
                 return 2;
             default:
-                return 0;
+                return 3;
         }
     }
 
