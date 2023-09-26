@@ -8,11 +8,11 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class Translator {
-    // current operations : ADD, SUBTRACT, MULTIPLY, DIVIDE
+    public static Engine engine = new Engine();
+
+    public static String[] singleNumberOperators = [];
+
     public static void main(String[] args) {
-
-        Engine engine = new Engine();
-
         Scanner in = new Scanner(System.in);
         System.out.print("Enter an expression to evaluate: ");
         String input = in.nextLine();
@@ -20,34 +20,34 @@ public class Translator {
             input = "3 ADD 4 MULT 2 DIV 3 SUB 3 MULT 4";
         }
 
-        while (true) {
-            String[] tokens = input.split(" "); 
-            if (tokens.length <= 1) break;
-            ArrayList<String> statements = new ArrayList<>();
-            for (int i = 1; i < tokens.length; i+=2) {
-                statements.add(tokens[i - 1] + " " + tokens[i] + " " + tokens[i + 1]);
-            }
-            String highestPriorityString = highestPriorityOverall(statements);
-            System.out.println(highestPriorityString);
-            // can now pass that to engine and get a value, in this example 8
-            // Scanner in = new Scanner(System.in);
-            // System.out.print("Enter the value of the expression: ");
-
-            double val = engine.evaluate(highestPriorityString);
-            input = input.replace(highestPriorityString, Double.toString(val));
-        } 
-        System.out.println(input);
+        System.out.println(translate(input));
     }
 
-    public static boolean isNumeric(String str) {
+    public static String translate(String input) {
+        String[] tokens = input.split(" ");
+        if (tokens.length <= 1) return input;
+        ArrayList<String> statements = splitStatements(tokens)
+        String highestPriorityString = highestPriorityOverall(statements);
+        double val = engine.evaluate(highestPriorityString);
+        return translate(input.replace(highestPriorityString, Double.toString(val)));
+    }
+
+    public static ArrayList<String> splitStatements(String[] tokens) {
+        for (String token : tokens) {
+            if (!isNumeric(token)) {
+
+            }
+        }
+    }
+
+    public static boolean isNumeric(String token) {
         try {
-            Double.parseDouble(str);
+            Double.parseDouble(token);
             return true;
         } catch (NumberFormatException e) {
             return false;
         }
     }
-
     public static String highestPriority(String statement1, String statement2) {
         String[] tokens1 = statement1.split(" "); 
         String operator1 = tokens1[1];
@@ -68,7 +68,6 @@ public class Translator {
     // Get the precedence level of an operator
     private static int getOperatorPrecedence(String operator) {
         switch (operator) {
-
             case "ADD":
             case "SUB":
                 return 1;
@@ -76,7 +75,6 @@ public class Translator {
             case "MULT":
             case "DIV":
                 return 2;
-
             default:
                 return 0;
         }
