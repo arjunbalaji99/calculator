@@ -10,7 +10,7 @@ import java.util.Stack;
 public class Translator {
     public static Engine engine = new Engine();
 
-    public static String[] singleNumberOperators = [];
+    public static String[] singleNumberOperators;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -26,18 +26,20 @@ public class Translator {
     public static String translate(String input) {
         String[] tokens = input.split(" ");
         if (tokens.length <= 1) return input;
-        ArrayList<String> statements = splitStatements(tokens)
+        ArrayList<String> statements = splitStatements(tokens);
         String highestPriorityString = highestPriorityOverall(statements);
         double val = engine.evaluate(highestPriorityString);
         return translate(input.replace(highestPriorityString, Double.toString(val)));
     }
 
     public static ArrayList<String> splitStatements(String[] tokens) {
+        ArrayList<String> statements = new ArrayList<>();
         for (String token : tokens) {
             if (!isNumeric(token)) {
-
+                System.out.println("fad");
             }
         }
+        return statements;
     }
 
     public static boolean isNumeric(String token) {
