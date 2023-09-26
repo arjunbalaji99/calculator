@@ -36,7 +36,7 @@ public class Translator {
         ArrayList<String> statements = new ArrayList<>();
         for (String token : tokens) {
             if (!isNumeric(token)) {
-                System.out.println("fad");
+                System.out.println("testing");
             }
         }
         return statements;
