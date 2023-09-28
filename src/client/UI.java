@@ -57,16 +57,16 @@ public class UI {
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 String inp = input.getText();
-                try {
-
-                    // if last char of input is a whitespace, remove it
-                    inp = inp.trim();
-
-                    double ans = Translator.Calculate(inp);
-                    answerText.setText("Answer: " + ans);
-                } catch (Exception e) {
-                    answerText.setText("Error");
-                }
+//                try {
+//
+//                    // if last char of input is a whitespace, remove it
+//                    inp = inp.trim();
+//
+//                    double ans = Translator.Calculate(inp);
+//                    answerText.setText("Answer: " + ans);
+//                } catch (Exception e) {
+//                    answerText.setText("Error");
+//                }
 
             }
         };

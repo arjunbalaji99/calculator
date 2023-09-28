@@ -9,17 +9,42 @@ public class Translator {
 
     public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("ADD", "SUB", "MULT", "DIV", "MOD", "EXP", "LOG"));
 
-
-
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter an expression to evaluate: ");
         String input = in.nextLine();
         if (input.isEmpty()) {
-            input = "4 MULT OPNPAR 3 MULT OPNPAR 4 ADD 7 CLSPAR CLSPAR MULT 2 DIV 3 SUB 3 MULT 3 EXP 2";
+            input = "4 MULT OPNPAR 3 CLSPAR";
         }
+        if (findErrors(input)) System.out.println("You suck and gave me a bad input");
+        else System.out.println(translate(input));
+    }
 
-        System.out.println(translate(input));
+    public static boolean findErrors(String input) {
+        // errors to find - two operators in a row, closed par without an open par, operator without a number/numbers to corroborate
+        String[] tokens = input.split(" ");
+        // closed par without an open par
+        int numPars = 0;
+        for (int i = 0; i < tokens.length; i++) {
+            if (tokens[i].equals("OPNPAR")) numPars++;
+            else if (tokens[i].equals("CLSPAR")) numPars--;
+            if (numPars < 0) return true;
+        }
+        // two operators in a row, or operator without a number to corroborate
+        for (int i = 0; i < tokens.length; i++) {
+            // if its an operator
+            if (!isNumeric(tokens[i])) {
+                // if it requires two numbers
+                if (twoNumberOperators.contains(tokens[i])) {
+                    if (i == tokens.length - 1 || i == 0) return true;
+                    else if (twoNumberOperators.contains(tokens[i - 1]) || twoNumberOperators.contains(tokens[i + 1])) return true;
+                } else if (!tokens[i].equals("CLSPAR") && !tokens[i].equals("OPNPAR")) {
+                    if (i == tokens.length - 1) return true;
+                    else if (twoNumberOperators.contains(tokens[i + 1])) return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static String translate(String input) {
@@ -46,7 +71,8 @@ public class Translator {
                     i++;
                 }
                 String val = translate(paranthesesExpression);
-                paranthesesExpression = "OPNPAR " + paranthesesExpression + "CLSPAR ";
+                if (i == tokens.length - 1) paranthesesExpression = "OPNPAR " + paranthesesExpression + "CLSPAR";
+                else paranthesesExpression = "OPNPAR " + paranthesesExpression + "CLSPAR ";
                 input = input.replace(paranthesesExpression, val);
             }
         }
