@@ -9,12 +9,14 @@ public class Translator {
 
     public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("ADD", "SUB", "MULT", "DIV", "MOD", "EXP", "LOG"));
 
+
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter an expression to evaluate: ");
         String input = in.nextLine();
         if (input.isEmpty()) {
-            input = "4 MULT PAR 3 ADD 4 PAR MULT 2 DIV 3 SUB 3 MULT 3 EXP 2";
+            input = "4 MULT OPNPAR 3 MULT OPNPAR 4 ADD 7 CLSPAR CLSPAR MULT 2 DIV 3 SUB 3 MULT 3 EXP 2";
         }
 
         System.out.println(translate(input));
@@ -33,14 +35,18 @@ public class Translator {
     public static String lookForParentheses(String input) {
         String[] tokens = input.split(" ");
         for (int i = 0; i < tokens.length; i++) {
-            if (tokens[i].equals("PAR")) {
+            if (tokens[i].equals("OPNPAR")) {
                 String paranthesesExpression = "";
                 i++;
-                while (!tokens[i].equals("PAR")) {
-                    paranthesesExpression += tokens[i++] + " ";
+                int numPars = 0;
+                while (!tokens[i].equals("CLSPAR") || numPars > 0) {
+                    paranthesesExpression += tokens[i] + " ";
+                    if (tokens[i].equals("OPNPAR")) numPars++;
+                    else if (tokens[i].equals("CLSPAR")) numPars--;
+                    i++;
                 }
                 String val = translate(paranthesesExpression);
-                paranthesesExpression = "PAR " + paranthesesExpression + "PAR ";
+                paranthesesExpression = "OPNPAR " + paranthesesExpression + "CLSPAR ";
                 input = input.replace(paranthesesExpression, val);
             }
         }
