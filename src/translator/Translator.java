@@ -14,7 +14,7 @@ public class Translator {
         System.out.print("Enter an expression to evaluate: ");
         String input = in.nextLine();
         if (input.isEmpty()) {
-            input = "4 MULT OPNPAR 3 CLSPAR";
+            input = "OPNPAR OPNPAR 3 CLSPAR CLSPAR ";
         }
         if (findErrors(input)) System.out.println("You suck and gave me a bad input");
         else System.out.println(translate(input));
@@ -71,8 +71,7 @@ public class Translator {
                     i++;
                 }
                 String val = translate(paranthesesExpression);
-                if (i == tokens.length - 1) paranthesesExpression = "OPNPAR " + paranthesesExpression + "CLSPAR";
-                else paranthesesExpression = "OPNPAR " + paranthesesExpression + "CLSPAR ";
+                paranthesesExpression = "OPNPAR " + paranthesesExpression + "CLSPAR ";
                 input = input.replace(paranthesesExpression, val);
             }
         }
