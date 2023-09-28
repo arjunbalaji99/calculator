@@ -25,9 +25,9 @@ public class Translator {
         String[] tokens = input.split(" ");
         // closed par without an open par
         int numPars = 0;
-        for (int i = 0; i < tokens.length; i++) {
-            if (tokens[i].equals("OPNPAR")) numPars++;
-            else if (tokens[i].equals("CLSPAR")) numPars--;
+        for (String token : tokens) {
+            if (token.equals("OPNPAR")) numPars++;
+            else if (token.equals("CLSPAR")) numPars--;
             if (numPars < 0) return true;
         }
         // two operators in a row, or operator without a number to corroborate
