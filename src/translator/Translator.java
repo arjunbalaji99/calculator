@@ -31,30 +31,54 @@ public class Translator {
     }
 
     /**
-     * NOTE: "token" refers only to numeric tokens for this method. This includes exactly one or 0 .'s and a possible
-     * negative sign at the beginning.
+     * NOTE: "token" refers only to numeric tokens for this method.
+     * Examples:
+     * <ul>
+     * <li>.2314000</li>
+     * <li>-9.283</li>
+     * <li>6.718</li>
+     * <li>0002006</li>
+     * <li>-.823</li>
+     * </ul>
      *
      * Takes an expression such as 45.3+92.6/3 and a current index (e.g. 0) and returns the index
      * of the last character that is part of the current token. In this case, 45.3 is the first token,
      * so this method is expected to return 3 (index of "3")
      * @param exp untokenized String expression
      * @param start index inside that String to start at (finds the token that exp[currIdx] is a part of)
-     * @return int representing the index of the last char in the current token
+     * @return int representing the index of the first char NOT in the curr token, returns start if provided index was non-numeric.
      */
     private static int endOfNumericToken(String exp, int start) {
+
+        // Delete . and - from this as we parse
         HashSet<String> validChars = new HashSet<>(Arrays.asList(new String[] {
-            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"
         }));
 
-        if (!validChars.contains("" + exp.charAt(start)) && !(exp.charAt(start) == '-')) {
-            // Invalid token
-            return start;
-        }
-
         int currIndex = start;
+
+        // Go until end, return exp.length() if the number extends all the way to the end
         while (currIndex < exp.length()) {
 
+            String currChar = String.valueOf(exp.charAt(currIndex));
+
+            if (!validChars.contains(currChar)) {
+                // Return curr index because it is the first invalid char
+                return currIndex;
+            }
+
+            if (currChar.equals("-") || currChar.equals(".")) {
+                // Look at the next char - if its not numeric, then this char is invalid
+                if (currIndex + 1 >= exp.length() || isNumeric(String.valueOf(exp.charAt(currIndex)))) {
+                    // Return curr index because it is the first invalid char
+                    return currIndex;
+                }
+                validChars.remove(currChar);
+            }
+
+            currIndex++;
         }
+        return currIndex;
     }
 
     public static boolean findErrors(String input) {
