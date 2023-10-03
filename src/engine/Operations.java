@@ -123,11 +123,7 @@ public class Operations {
 
     /**
      *
-     * @param opName any exact string in the following list:
-     *               ADD, SUB, MULT, DIV, MOD, ABS, LOG10, LN, LOG,
-     *               EXP, SQUARE, SQRT, CUBE, CBRT,
-     *               SIN, COS, TAN, SEC, CSC, COT,
-     *               ARCSIN, ARCCOS, ARCTAN, ARCSEC, ARCCSC, ARCCOT,
+     * @param opName any exact string representing an operation like "+", "-", "sin", "log10"
      *
      * @return A double result of the operation
      */
@@ -136,82 +132,76 @@ public class Operations {
         try {
             switch (opName) {
 
-                case "ADD":
+                case "+":
                     return ADD(operands[0], operands[1]);
 
-                case "SUB":
+                case "-":
                     return SUBTRACT(operands[0], operands[1]);
 
-                case "MULT":
+                case "*":
                     return MULTIPLY(operands[0], operands[1]);
 
-                case "DIV":
+                case "/":
                     return DIVIDE(operands[0], operands[1]);
 
-                case "SQRT":
+                case "sqrt":
                     return SQRT(operands[0]);
 
-                case "SQUARE":
-                    return SQUARE(operands[0]);
-
-                case "CUBE":
-                    return CUBE(operands[0]);
-
-                case "CBRT":
+                case "cbrt":
                     return CBRT(operands[0]);
 
-                case "MOD":
+                case "%":
                     return MOD(operands[0], operands[1]);
 
-                case "LOG10":
+                case "log10":
                     return LOG10(operands[0]);
 
-                case "LN":
+                case "ln":
                     return LN(operands[0]);
 
-                case "LOG":
+                case "log":
                     return LOG(operands[0], operands[1]);
 
-                case "ABS":
+                case "abs":
                     return ABS(operands[0]);
 
-                case "EXP":
+                case "^":
                     return EXP(operands[0], operands[1]);
 
-                case "SIN":
+                case "sin":
                     return SIN(operands[0]);
 
-                case "COS":
+                case "cos":
                     return COS(operands[0]);
 
-                case "TAN":
+                case "tan":
                     return TAN(operands[0]);
 
-                case "SEC":
+                case "sec":
                     return SEC(operands[0]);
 
-                case "CSC":
+                case "csc":
                     return CSC(operands[0]);
 
-                case "COT":
+                case "cot":
                     return COT(operands[0]);
 
-                case "ARCSIN":
+                case "arcsin":
                     return ARCSIN(operands[0]);
 
-                case "ARCCOS":
+                case "arccos":
                     return ARCCOS(operands[0]);
 
-                case "ARCTAN":
+                case "arctan":
                     return ARCTAN(operands[0]);
 
-                case "ARCSEC":
+                case "arcsec":
                     return ARCSEC(operands[0]);
 
-                case "ARCCSC":
+                case "arccsc":
                     return ARCCSC(operands[0]);
 
-                case "ARCCOT":
+                case "arccot":
                     return ARCCOT(operands[0]);
 
                 default:
