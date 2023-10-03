@@ -137,7 +137,7 @@ public class UI {
     }
 
     private void addOperationButtons(JPanel container) {
-        String[] ops = new String[] {"+", "-", "*", "/", ".", "=", "(", ")", "C"};
+        String[] ops = new String[] {"+", "-", "*", "/", ".", "=", "(", ")", "C", "Del"};
         for (String op : ops) {
             JButton temp = new JButton();
             refs.put("Button_" + op, temp);
@@ -151,7 +151,20 @@ public class UI {
 
     private void updateExpr(String inputChar) {
 
-        currExp = inputChar.equals("=")? getResult() : currExp + inputChar;
+        switch (inputChar) {
+            case "=":
+                currExp = getResult();
+                break;
+            case "C":
+                currExp = "";
+                break;
+            case "Del":
+                currExp = currExp.substring(0, Math.max(0, currExp.length() - 1));
+                break;
+            default:
+                currExp += inputChar;
+        }
+
         ((JLabel) refs.get("DisplayText")).setText(currExp);
 
     }
