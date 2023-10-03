@@ -14,7 +14,7 @@ public class Translator {
         System.out.print("Enter an expression to evaluate: ");
         String input = in.nextLine();
         if (input.isEmpty()) {
-            input = "OPNPAR OPNPAR 3 CLSPAR CLSPAR ";
+            input = "OPNPAR OPNPAR OPNPAR OPNPAR 4 CLSPAR MULT 4 CLSPAR CLSPAR CLSPAR";
         }
         if (findErrors(input)) System.out.println("You suck and gave me a bad input");
         else System.out.println(translate(input));
