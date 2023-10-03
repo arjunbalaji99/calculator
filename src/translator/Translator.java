@@ -7,14 +7,14 @@ import java.util.*;
 public class Translator {
     public static Engine engine = new Engine();
 
-    public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("ADD", "SUB", "MULT", "DIV", "MOD", "EXP", "LOG"));
+    public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("+", "-", "*", "/", "%", "^", "log"));
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.print("Enter an expression to evaluate: ");
         String input = in.nextLine();
         if (input.isEmpty()) {
-            input = "OPNPAR OPNPAR OPNPAR OPNPAR 4 CLSPAR MULT 4 CLSPAR CLSPAR CLSPAR";
+            input = "( ( ( ( 4 ) * 4 ) ) )";
         }
         if (findErrors(input)) System.out.println("You suck and gave me a bad input");
         else System.out.println(translate(input));
@@ -26,9 +26,9 @@ public class Translator {
      * @param exp String directly from the UI, in readable format: e.g. 4+2-3, 5*7/(2+5) (no whitespace)
      * @return Translator String formatted, e.g. 4 ADD 2 SUB 3, 5 MULT 7 DIV OPNPAR 2 ADD 5 CLSPAR
      */
-    public static String readDisplayExpr(String exp) {
+    /*public static String readDisplayExpr(String exp) {
 
-    }
+    }*/
 
     /**
      * NOTE: "token" refers only to numeric tokens for this method.
@@ -48,38 +48,38 @@ public class Translator {
      * @param start index inside that String to start at (finds the token that exp[currIdx] is a part of)
      * @return int representing the index of the first char NOT in the curr token, returns start if provided index was non-numeric.
      */
-    private static int endOfNumericToken(String exp, int start) {
-
-        // Delete . and - from this as we parse
-        HashSet<String> validChars = new HashSet<>(Arrays.asList(new String[] {
-            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"
-        }));
-
-        int currIndex = start;
-
-        // Go until end, return exp.length() if the number extends all the way to the end
-        while (currIndex < exp.length()) {
-
-            String currChar = String.valueOf(exp.charAt(currIndex));
-
-            if (!validChars.contains(currChar)) {
-                // Return curr index because it is the first invalid char
-                return currIndex;
-            }
-
-            if (currChar.equals("-") || currChar.equals(".")) {
-                // Look at the next char - if its not numeric, then this char is invalid
-                if (currIndex + 1 >= exp.length() || isNumeric(String.valueOf(exp.charAt(currIndex)))) {
-                    // Return curr index because it is the first invalid char
-                    return currIndex;
-                }
-                validChars.remove(currChar);
-            }
-
-            currIndex++;
-        }
-        return currIndex;
-    }
+//    private static int endOfNumericToken(String exp, int start) {
+//
+//        // Delete . and - from this as we parse
+//        HashSet<String> validChars = new HashSet<>(Arrays.asList(new String[] {
+//            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"
+//        }));
+//
+//        int currIndex = start;
+//
+//        // Go until end, return exp.length() if the number extends all the way to the end
+//        while (currIndex < exp.length()) {
+//
+//            String currChar = String.valueOf(exp.charAt(currIndex));
+//
+//            if (!validChars.contains(currChar)) {
+//                // Return curr index because it is the first invalid char
+//                return currIndex;
+//            }
+//
+//            if (currChar.equals("-") || currChar.equals(".")) {
+//                // Look at the next char - if its not numeric, then this char is invalid
+//                if (currIndex + 1 >= exp.length() || isNumeric(String.valueOf(exp.charAt(currIndex)))) {
+//                    // Return curr index because it is the first invalid char
+//                    return currIndex;
+//                }
+//                validChars.remove(currChar);
+//            }
+//
+//            currIndex++;
+//        }
+//        return currIndex;
+//    }
 
     public static boolean findErrors(String input) {
         // errors to find - two operators in a row, closed par without an open par, operator without a number/numbers to corroborate

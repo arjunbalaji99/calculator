@@ -32,7 +32,6 @@ public class UI {
      * @param args idk
      */
     public static void main(String[] args) {
-
         UI ui = new UI();
         ui.mount();
 
@@ -150,10 +149,8 @@ public class UI {
     }
 
     private void updateExpr(String inputChar) {
-
         currExp = inputChar.equals("=")? getResult() : currExp + inputChar;
         ((JLabel) refs.get("DisplayText")).setText(currExp);
-
     }
 
     /**
