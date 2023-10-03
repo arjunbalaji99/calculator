@@ -18,18 +18,14 @@ public class Translator {
 //        }
         String input = "4 * 3";
         if (findErrors(input)) System.out.println("You suck and gave me a bad input");
-        else System.out.println(translate(input));
+        else System.out.println(calculate(input));
     }
 
     /**
-     * Converts a String from the UI into an expression that can be evaluated
-     * Adds in whitespace as well for tokenization
-     * @param exp String directly from the UI, in readable format: e.g. 4+2-3, 5*7/(2+5) (no whitespace)
-     * @return Translator String formatted, e.g. 4 + 2 - 3, 5 * 7 / ( 2 + 5 )
+     * Takes in a string from the frontend and evaluates it
+     * @param exp String directly from the UI, in format such as 2 + 9 - log10 ( 8 - 2 * sin ( 8 ) )
+     * @return Result of the operation as a string, such as 7.8 or -0.012
      */
-    public static String readDisplayExpr(String exp) {
-        return "bad";
-    }
 
     /**
      * NOTE: "token" refers only to numeric tokens for this method.
@@ -125,7 +121,8 @@ public class Translator {
         return false;
     }
 
-    public static String translate(String input) {
+    public static String calculate(String input) {
+        System.out.println(input);
         input = lookForParentheses(input);
         String[] tokens = input.split(" ");
         if (tokens.length <= 1) return input;
@@ -133,7 +130,7 @@ public class Translator {
         String highestPriorityString = highestPriorityOverall(statements);
         System.out.println(highestPriorityString);
         double val = engine.evaluate(highestPriorityString);
-        return translate(input.replace(highestPriorityString, Double.toString(val)));
+        return calculate(input.replace(highestPriorityString, Double.toString(val)));
     }
 
     public static String lookForParentheses(String input) {
@@ -149,7 +146,7 @@ public class Translator {
                     else if (tokens[i].equals(")")) numPars--;
                     i++;
                 }
-                String val = translate(paranthesesExpression);
+                String val = calculate(paranthesesExpression);
                 paranthesesExpression = "( " + paranthesesExpression + ") ";
                 input = input.replace(paranthesesExpression, val);
             }
@@ -170,6 +167,9 @@ public class Translator {
     }
 
     public static boolean isNumeric(String token) {
+
+        if (token.charAt(0) == '—') return true;
+
         try {
             Double.parseDouble(token);
             return true;

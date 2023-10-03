@@ -77,17 +77,26 @@ public class Engine {
 
         if (tokens.length == 2) {
             // (OPNAME) x format
-            return Operations.getResult(tokens[0], new double[] { Double.parseDouble(tokens[1]) });
+            return Operations.getResult(tokens[0], new double[] { Double.parseDouble(removeSpecialChars(tokens[1]))});
 
         } else if (tokens.length == 3) {
             // x (OPNAME) y format
             return Operations.getResult(
                 tokens[1],
-                new double[] { Double.parseDouble(tokens[0]), Double.parseDouble(tokens[2]) }
+                new double[] { Double.parseDouble(removeSpecialChars(tokens[0])), Double.parseDouble(removeSpecialChars(tokens[2]))}
             );
         }
 
         throw new IllegalArgumentException("Invalid number of tokens provided for expression. 2 or 3 required. Provided: " + tokens.length);
+    }
+
+    /**
+     * Removes the special negative symbol used (—) with (-) so that it can be parsed
+     * @param input original such as —9.2
+     * @return replaced negative -> -9.2
+     */
+    private String removeSpecialChars(String input) {
+        return input.replace("—", "-");
     }
 
 }

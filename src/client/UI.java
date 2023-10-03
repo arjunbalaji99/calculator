@@ -193,7 +193,10 @@ public class UI {
         }
 
         // Due to padding before and after ops, double spaces exist - remove them.
-        ((JLabel) refs.get("DisplayText")).setText(currExp.replace("  ", " ").trim());
+        currExp = currExp.replace("  ", " ");
+        ((JLabel) refs.get("DisplayText")).setText(currExp);
+
+        System.out.println("Updated: [" + currExp + "]");
 
     }
 
@@ -201,6 +204,6 @@ public class UI {
      * Evaluates currExp and returns the answer/error
      */
     private String getResult() {
-        return "Coming Soon";
+        return Translator.calculate(currExp).trim();
     }
 }
