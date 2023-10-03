@@ -20,14 +20,75 @@ public class Translator {
         else System.out.println(translate(input));
     }
 
+    /**
+     * Converts a String from the UI into an expression that can be evaluated
+     * Adds in whitespace as well for tokenization
+     * @param exp String directly from the UI, in readable format: e.g. 4+2-3, 5*7/(2+5) (no whitespace)
+     * @return Translator String formatted, e.g. 4 ADD 2 SUB 3, 5 MULT 7 DIV OPNPAR 2 ADD 5 CLSPAR
+     */
+    public static String readDisplayExpr(String exp) {
+
+    }
+
+    /**
+     * NOTE: "token" refers only to numeric tokens for this method.
+     * Examples:
+     * <ul>
+     * <li>.2314000</li>
+     * <li>-9.283</li>
+     * <li>6.718</li>
+     * <li>0002006</li>
+     * <li>-.823</li>
+     * </ul>
+     *
+     * Takes an expression such as 45.3+92.6/3 and a current index (e.g. 0) and returns the index
+     * of the last character that is part of the current token. In this case, 45.3 is the first token,
+     * so this method is expected to return 3 (index of "3")
+     * @param exp untokenized String expression
+     * @param start index inside that String to start at (finds the token that exp[currIdx] is a part of)
+     * @return int representing the index of the first char NOT in the curr token, returns start if provided index was non-numeric.
+     */
+    private static int endOfNumericToken(String exp, int start) {
+
+        // Delete . and - from this as we parse
+        HashSet<String> validChars = new HashSet<>(Arrays.asList(new String[] {
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"
+        }));
+
+        int currIndex = start;
+
+        // Go until end, return exp.length() if the number extends all the way to the end
+        while (currIndex < exp.length()) {
+
+            String currChar = String.valueOf(exp.charAt(currIndex));
+
+            if (!validChars.contains(currChar)) {
+                // Return curr index because it is the first invalid char
+                return currIndex;
+            }
+
+            if (currChar.equals("-") || currChar.equals(".")) {
+                // Look at the next char - if its not numeric, then this char is invalid
+                if (currIndex + 1 >= exp.length() || isNumeric(String.valueOf(exp.charAt(currIndex)))) {
+                    // Return curr index because it is the first invalid char
+                    return currIndex;
+                }
+                validChars.remove(currChar);
+            }
+
+            currIndex++;
+        }
+        return currIndex;
+    }
+
     public static boolean findErrors(String input) {
         // errors to find - two operators in a row, closed par without an open par, operator without a number/numbers to corroborate
         String[] tokens = input.split(" ");
         // closed par without an open par
         int numPars = 0;
-        for (int i = 0; i < tokens.length; i++) {
-            if (tokens[i].equals("OPNPAR")) numPars++;
-            else if (tokens[i].equals("CLSPAR")) numPars--;
+        for (String token : tokens) {
+            if (token.equals("OPNPAR")) numPars++;
+            else if (token.equals("CLSPAR")) numPars--;
             if (numPars < 0) return true;
         }
         // two operators in a row, or operator without a number to corroborate
