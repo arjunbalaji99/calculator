@@ -32,6 +32,7 @@ public class UI {
      * @param args idk
      */
     public static void main(String[] args) {
+
         UI ui = new UI();
         ui.mount();
 
@@ -112,8 +113,8 @@ public class UI {
 
         // Grid to arrange buttons on
         GridLayout g = new GridLayout();
-        g.setRows(5);
         g.setColumns(4);
+        g.setRows(12);
 
         buttonPanel.setLayout(g);
 
@@ -136,11 +137,17 @@ public class UI {
     }
 
     private void addOperationButtons(JPanel container) {
-        String[] ops = new String[] {"+", "-", "*", "/", ".", "=", "(", ")", "C"};
+        String[] ops = new String[] {
+                " + ", " - ", " * ", " / ", ".", "=", " ( ", " ) ", "C", "Del",
+                " log10 ( ", " log ( ", " ln ( ", " abs ( ", " ^ ( ", " % ( ", "—",
+                " ^ 2 ", " sqrt ( ", " ^ 3 ", " cbrt ( ",
+                " sin ( ", " cos ( ", " tan ( ", " sec ( ", " csc ( ", " cot ( ",
+                " arcsin ( ", " arccos ( ", " arctan ( ", " arcsec ( ", " arccsc ( ", " arccot ( ",
+        };
         for (String op : ops) {
             JButton temp = new JButton();
             refs.put("Button_" + op, temp);
-            temp.setText(op);
+            temp.setText(removeTokenizers(op));
 
             temp.addActionListener(actionEvent -> { updateExpr(op); });
 
@@ -148,9 +155,46 @@ public class UI {
         }
     }
 
+    /**
+     * Removes helper characters from an operation text, such as " sqrt ( " -> "sqrt"
+     * Used for display on buttons.
+     * Removed chars: " ", "(", ")"
+     * @param originalText Original operation such as " ^ 2 " or " sin ( "
+     * @return trimmed and removed chars, such as "^2" or "sin"
+     */
+    private String removeTokenizers(String originalText) {
+
+        // If it's the parenthesis buttons, don't remove them
+        if (originalText.equals(" ( ") || originalText.equals(" ) ")) {
+            return originalText.trim();
+        }
+
+        return originalText
+                .trim()
+                .replace(" ", "")
+                .replace("(", "")
+                .replace(")", "");
+    }
+
     private void updateExpr(String inputChar) {
-        currExp = inputChar.equals("=")? getResult() : currExp + inputChar;
-        ((JLabel) refs.get("DisplayText")).setText(currExp);
+
+        switch (inputChar) {
+            case "=":
+                currExp = getResult();
+                break;
+            case "C":
+                currExp = "";
+                break;
+            case "Del":
+                currExp = currExp.substring(0, Math.max(0, currExp.length() - 1));
+                break;
+            default:
+                currExp += inputChar;
+        }
+
+        // Due to padding before and after ops, double spaces exist - remove them.
+        ((JLabel) refs.get("DisplayText")).setText(currExp.replace("  ", " ").trim());
+
     }
 
     /**
