@@ -10,20 +10,24 @@ public class Translator {
     public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("+", "-", "*", "/", "%", "^"));
 
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-//        System.out.print("Enter an expression to evaluate: ");
-//        String input = in.nextLine();
-//        if (input.isEmpty()) {
-//            input = "( ( ( ( 4 ) * 4 ) ) )";
-//        }
+        // Scanner in = new Scanner(System.in);
+        // System.out.print("Enter an expression to evaluate: ");
+        // String input = in.nextLine();
+        // if (input.isEmpty()) {
+        // input = "( ( ( ( 4 ) * 4 ) ) )";
+        // }
         String input = "4 * 3";
-        if (findErrors(input)) System.out.println("You suck and gave me a bad input");
-        else System.out.println(calculate(input));
+        if (findErrors(input))
+            System.out.println("You suck and gave me a bad input");
+        else
+            System.out.println(calculate(input));
     }
 
     /**
      * Takes in a string from the frontend and evaluates it
-     * @param exp String directly from the UI, in format such as 2 + 9 - log10 ( 8 - 2 * sin ( 8 ) )
+     * 
+     * @param exp String directly from the UI, in format such as 2 + 9 - log10 ( 8 -
+     *            2 * sin ( 8 ) )
      * @return Result of the operation as a string, such as 7.8 or -0.012
      */
 
@@ -38,14 +42,19 @@ public class Translator {
      * <li>-.823</li>
      * </ul>
      *
-     * Takes an expression such as 45.3+92.6/3 and a current index (e.g. 0) and returns the index
-     * of the last character that is part of the current token. In this case, 45.3 is the first token,
+     * Takes an expression such as 45.3+92.6/3 and a current index (e.g. 0) and
+     * returns the index
+     * of the last character that is part of the current token. In this case, 45.3
+     * is the first token,
      * so this method is expected to return 3 (index of "3")
-     * @param exp untokenized String expression
-     * @param start index inside that String to start at (finds the token that exp[currIdx] is a part of)
-     * @return int representing the index of the first char NOT in the curr token, returns -1 if provided index was non-numeric.
+     * 
+     * @param exp   untokenized String expression
+     * @param start index inside that String to start at (finds the token that
+     *              exp[currIdx] is a part of)
+     * @return int representing the index of the first char NOT in the curr token,
+     *         returns -1 if provided index was non-numeric.
      */
-    private static int endOfNumericToken(String exp, int start) {
+    public static int endOfNumericToken(String exp, int start) {
 
         // Delete . and - from this as we parse
         HashSet<String> validChars = new HashSet<>(Arrays.asList(new String[] {
@@ -59,10 +68,10 @@ public class Translator {
 
         // If the first char is - or ., then we expect a numeric value immediately after
         if (String.valueOf(exp.charAt(start)).equals("-") || String.valueOf(exp.charAt(start)).equals(".")) {
-            validChars.remove(String.valueOf(exp.charAt(start)));  // remove once used
+            validChars.remove(String.valueOf(exp.charAt(start))); // remove once used
 
             // If next char is NaN or doesn't exist, then this is not a valid numeric token
-            if (start + 1 >= exp.length() || !isNumeric(String.valueOf(exp.charAt(start+1)))) {
+            if (start + 1 >= exp.length() || !isNumeric(String.valueOf(exp.charAt(start + 1)))) {
                 return -1;
             }
         }
@@ -70,7 +79,8 @@ public class Translator {
         validChars.remove("-"); // no negative sign allowed past first char
         int currIndex = start + 1;
 
-        // Go until end, return exp.length() if the number extends all the way to the end
+        // Go until end, return exp.length() if the number extends all the way to the
+        // end
         while (currIndex < exp.length()) {
 
             String currChar = String.valueOf(exp.charAt(currIndex));
@@ -95,14 +105,18 @@ public class Translator {
     }
 
     public static boolean findErrors(String input) {
-        // errors to find - two operators in a row, closed par without an open par, operator without a number/numbers to corroborate
+        // errors to find - two operators in a row, closed par without an open par,
+        // operator without a number/numbers to corroborate
         String[] tokens = input.split(" ");
         // closed par without an open par
         int numPars = 0;
         for (String token : tokens) {
-            if (token.equals("(")) numPars++;
-            else if (token.equals(")")) numPars--;
-            if (numPars < 0) return true;
+            if (token.equals("("))
+                numPars++;
+            else if (token.equals(")"))
+                numPars--;
+            if (numPars < 0)
+                return true;
         }
         // two operators in a row, or operator without a number to corroborate
         for (int i = 0; i < tokens.length; i++) {
@@ -110,11 +124,15 @@ public class Translator {
             if (!isNumeric(tokens[i])) {
                 // if it requires two numbers
                 if (twoNumberOperators.contains(tokens[i])) {
-                    if (i == tokens.length - 1 || i == 0) return true;
-                    else if (twoNumberOperators.contains(tokens[i - 1]) || twoNumberOperators.contains(tokens[i + 1])) return true;
+                    if (i == tokens.length - 1 || i == 0)
+                        return true;
+                    else if (twoNumberOperators.contains(tokens[i - 1]) || twoNumberOperators.contains(tokens[i + 1]))
+                        return true;
                 } else if (!tokens[i].equals(")") && !tokens[i].equals("(")) {
-                    if (i == tokens.length - 1) return true;
-                    else if (twoNumberOperators.contains(tokens[i + 1])) return true;
+                    if (i == tokens.length - 1)
+                        return true;
+                    else if (twoNumberOperators.contains(tokens[i + 1]))
+                        return true;
                 }
             }
         }
@@ -125,7 +143,8 @@ public class Translator {
         System.out.println(input);
         input = lookForParentheses(input);
         String[] tokens = input.split(" ");
-        if (tokens.length <= 1) return input;
+        if (tokens.length <= 1)
+            return input;
         ArrayList<String> statements = splitStatements(tokens);
         String highestPriorityString = highestPriorityOverall(statements);
         System.out.println(highestPriorityString);
@@ -142,8 +161,10 @@ public class Translator {
                 int numPars = 0;
                 while (!tokens[i].equals(")") || numPars > 0) {
                     paranthesesExpression += tokens[i] + " ";
-                    if (tokens[i].equals("(")) numPars++;
-                    else if (tokens[i].equals(")")) numPars--;
+                    if (tokens[i].equals("("))
+                        numPars++;
+                    else if (tokens[i].equals(")"))
+                        numPars--;
                     i++;
                 }
                 String val = calculate(paranthesesExpression);
@@ -159,19 +180,18 @@ public class Translator {
         for (int i = 0; i < tokens.length; i++) {
             // means it is an operator
             if (!isNumeric(tokens[i])) {
-                if (twoNumberOperators.contains(tokens[i])) statements.add(tokens[i - 1] + " " + tokens[i] + " " + tokens[i + 1]);
-                else statements.add(tokens[i] + " " + tokens[i + 1]);
+                if (twoNumberOperators.contains(tokens[i]))
+                    statements.add(tokens[i - 1] + " " + tokens[i] + " " + tokens[i + 1]);
+                else
+                    statements.add(tokens[i] + " " + tokens[i + 1]);
             }
         }
         return statements;
     }
 
     public static boolean isNumeric(String token) {
-
-        if (token.charAt(0) == '—') return true;
-
         try {
-            Double.parseDouble(token);
+            Double.parseDouble(token.replace('—', '-'));
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -180,15 +200,18 @@ public class Translator {
 
     public static String getOperator(String statement) {
         String[] tokens = statement.split(" ");
-        String operator = "";
-        if (tokens.length == 2) return tokens[0];
-        else return tokens[1];
+        if (tokens.length == 2)
+            return tokens[0];
+        else
+            return tokens[1];
     }
 
     public static String highestPriority(String statement1, String statement2) {
         String operator1 = getOperator(statement1), operator2 = getOperator(statement2);
-        if (hasHigherPrecedence(operator2, operator1)) return statement2;
-        else return statement1;
+        if (hasHigherPrecedence(operator2, operator1))
+            return statement2;
+        else
+            return statement1;
     }
 
     private static boolean hasHigherPrecedence(String operator1, String operator2) {
@@ -219,4 +242,3 @@ public class Translator {
         return highestPriorityString;
     }
 }
-

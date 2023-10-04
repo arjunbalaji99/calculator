@@ -13,7 +13,8 @@ public class Engine {
     double[] VARS = new double[26];
 
     /**
-     * Stores a history of the String expressions that have been given to this instance and evaluated.
+     * Stores a history of the String expressions that have been given to this
+     * instance and evaluated.
      */
     ArrayList<String> HIST = new ArrayList<>();
 
@@ -28,19 +29,23 @@ public class Engine {
 
     /**
      * Create an Engine instance with initially set variables
+     * 
      * @param initVars A double array of 26
      */
     public Engine(double[] initVars) throws IllegalArgumentException {
         if (initVars.length != 26) {
-            throw new IllegalArgumentException("initVars must have length 26 to cover each capital letter. Given length: " + initVars.length);
+            throw new IllegalArgumentException(
+                    "initVars must have length 26 to cover each capital letter. Given length: " + initVars.length);
         }
         this.VARS = initVars;
     }
 
     /**
-     * Store a value in the engine's memory - TODO: ensure it gets saved to disk so it transcends engine instances
+     * Store a value in the engine's memory - ensure it gets saved to disk so it
+     * transcends engine instances
+     * 
      * @param varName char A-Z
-     * @param value double value to store in that variable
+     * @param value   double value to store in that variable
      * @return the value that was stored (same as parameter `value`)
      */
     public double store(char varName, double value) {
@@ -55,6 +60,7 @@ public class Engine {
 
     /**
      * Recall a variable from the engine memory
+     * 
      * @param varName char A-Z, must be capitalized
      * @return double value stored at that variable name
      */
@@ -68,8 +74,11 @@ public class Engine {
     }
 
     /**
-     * Evaluate a String expression of the form `x (OPNAME) y` or `(OPNAME) x`. Only one opname allowed.
-     * @param expression String formatted as `x (OPNAME) y` or `(OPNAME) x`. One whitespace between tokens.
+     * Evaluate a String expression of the form `x (OPNAME) y` or `(OPNAME) x`. Only
+     * one opname allowed.
+     * 
+     * @param expression String formatted as `x (OPNAME) y` or `(OPNAME) x`. One
+     *                   whitespace between tokens.
      * @return the result of the operation.
      */
     public double evaluate(String expression) throws IllegalArgumentException {
@@ -77,21 +86,24 @@ public class Engine {
 
         if (tokens.length == 2) {
             // (OPNAME) x format
-            return Operations.getResult(tokens[0], new double[] { Double.parseDouble(removeSpecialChars(tokens[1]))});
+            return Operations.getResult(tokens[0], new double[] { Double.parseDouble(removeSpecialChars(tokens[1])) });
 
         } else if (tokens.length == 3) {
             // x (OPNAME) y format
             return Operations.getResult(
-                tokens[1],
-                new double[] { Double.parseDouble(removeSpecialChars(tokens[0])), Double.parseDouble(removeSpecialChars(tokens[2]))}
-            );
+                    tokens[1],
+                    new double[] { Double.parseDouble(removeSpecialChars(tokens[0])),
+                            Double.parseDouble(removeSpecialChars(tokens[2])) });
         }
 
-        throw new IllegalArgumentException("Invalid number of tokens provided for expression. 2 or 3 required. Provided: " + tokens.length);
+        throw new IllegalArgumentException(
+                "Invalid number of tokens provided for expression. 2 or 3 required. Provided: " + tokens.length);
     }
 
     /**
-     * Removes the special negative symbol used (—) with (-) so that it can be parsed
+     * Removes the special negative symbol used (—) with (-) so that it can be
+     * parsed
+     * 
      * @param input original such as —9.2
      * @return replaced negative -> -9.2
      */

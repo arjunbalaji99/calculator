@@ -1,6 +1,5 @@
 package engine;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -119,11 +118,14 @@ public class Operations {
         return Math.asin(1.0 / x);
     }
 
-    public static double ARCCOT(double x) { return Math.atan(1.0 / x); }
+    public static double ARCCOT(double x) {
+        return Math.atan(1.0 / x);
+    }
 
     /**
      *
-     * @param opName any exact string representing an operation like "+", "-", "sin", "log10"
+     * @param opName any exact string representing an operation like "+", "-",
+     *               "sin", "log10"
      *
      * @return A double result of the operation
      */
@@ -205,16 +207,20 @@ public class Operations {
                     return ARCCOT(operands[0]);
 
                 default:
-                    throw new IllegalArgumentException("Invalid operation requested for " + opName + " with operands " + Arrays.toString(operands));
+                    throw new IllegalArgumentException("Invalid operation requested for " + opName + " with operands "
+                            + Arrays.toString(operands));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Invalid operands provided for operation " + opName + ". (" + operands.length + " were given)");
+            throw new IllegalArgumentException(
+                    "Invalid operands provided for operation " + opName + ". (" + operands.length + " were given)");
         }
     }
 
-    public HashMap<String[], Integer> OperationOrder = new HashMap<String[], Integer>() {{
-        put(new String[] { "EXP", "LOG", "LN", "LOG10" }, 2);
-        put(new String[] { "MULT", "DIV" }, 1);
-        put(new String[] { "ADD", "SUB" }, 0);
-    }};
+    public HashMap<String[], Integer> OperationOrder = new HashMap<String[], Integer>() {
+        {
+            put(new String[] { "EXP", "LOG", "LN", "LOG10" }, 2);
+            put(new String[] { "MULT", "DIV" }, 1);
+            put(new String[] { "ADD", "SUB" }, 0);
+        }
+    };
 }
