@@ -3,7 +3,7 @@ package CalculatorExceptions;
 public class CalculatorException extends Exception {
 
     private final String type;
-    private final String selfMessage;
+    private String selfMessage = "";
 
     /**
      * General Exception object for Translator, Engine, and UI
@@ -33,7 +33,7 @@ public class CalculatorException extends Exception {
      *       </ul>
      */
     public CalculatorException(String type) {
-        this.selfMessage = "Error";
+        this.selfMessage = "";
         this.type = type;
     }
 
@@ -43,5 +43,38 @@ public class CalculatorException extends Exception {
 
     public String getSelfMessage() {
         return this.selfMessage;
+    }
+
+    public String getDisplayMessage() {
+        String msg;
+
+        switch (this.getType()) {
+
+            case "syntax":
+                msg = "Syntax Error";
+                break;
+
+            case "parentheses":
+                msg = "Parentheses Error";
+                break;
+
+            case "div0":
+                msg = "Division by Zero";
+                break;
+
+            case "invalidOperation":
+                msg = "Invalid Operation Provided";
+                break;
+
+            default:
+                msg = "Error";
+
+        }
+
+        if (!this.getSelfMessage().isEmpty()) {
+            msg += ": " + this.getSelfMessage();
+        }
+
+        return msg;
     }
 }
