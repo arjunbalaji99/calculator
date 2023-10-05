@@ -17,134 +17,35 @@ public class Translator {
         // input = "( ( ( ( 4 ) * 4 ) ) )";
         // }
         String input = "4 * 3";
-        if (findErrors(input))
-            System.out.println("You suck and gave me a bad input");
-        else
-            System.out.println(calculate(input));
+        System.out.println(calculate(input));
     }
-
-    /**
-     * Takes in a string from the frontend and evaluates it
-     * 
-     * @param exp String directly from the UI, in format such as 2 + 9 - log10 ( 8 -
-     *            2 * sin ( 8 ) )
-     * @return Result of the operation as a string, such as 7.8 or -0.012
-     */
-
-    /**
-     * NOTE: "token" refers only to numeric tokens for this method.
-     * Examples:
-     * <ul>
-     * <li>.2314000</li>
-     * <li>-9.283</li>
-     * <li>6.718</li>
-     * <li>0002006</li>
-     * <li>-.823</li>
-     * </ul>
-     *
-     * Takes an expression such as 45.3+92.6/3 and a current index (e.g. 0) and
-     * returns the index
-     * of the last character that is part of the current token. In this case, 45.3
-     * is the first token,
-     * so this method is expected to return 3 (index of "3")
-     * 
-     * @param exp   untokenized String expression
-     * @param start index inside that String to start at (finds the token that
-     *              exp[currIdx] is a part of)
-     * @return int representing the index of the first char NOT in the curr token,
-     *         returns -1 if provided index was non-numeric.
-     */
-    public static int endOfNumericToken(String exp, int start) {
-
-        // Delete . and - from this as we parse
-        HashSet<String> validChars = new HashSet<>(Arrays.asList(new String[] {
-                "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-"
-        }));
-
-        // First char could be neg sign
-        if (!validChars.contains(String.valueOf(exp.charAt(start)))) {
-            return -1;
-        }
-
-        // If the first char is - or ., then we expect a numeric value immediately after
-        if (String.valueOf(exp.charAt(start)).equals("-") || String.valueOf(exp.charAt(start)).equals(".")) {
-            validChars.remove(String.valueOf(exp.charAt(start))); // remove once used
-
-            // If next char is NaN or doesn't exist, then this is not a valid numeric token
-            if (start + 1 >= exp.length() || !isNumeric(String.valueOf(exp.charAt(start + 1)))) {
-                return -1;
-            }
-        }
-
-        validChars.remove("-"); // no negative sign allowed past first char
-        int currIndex = start + 1;
-
-        // Go until end, return exp.length() if the number extends all the way to the
-        // end
-        while (currIndex < exp.length()) {
-
-            String currChar = String.valueOf(exp.charAt(currIndex));
-
-            if (!validChars.contains(currChar)) {
-                // Return curr index because it is the first invalid char
-                return currIndex;
-            }
-
-            if (currChar.equals(".")) {
-                // Look at the next char - if its not numeric, then this char is invalid
-                if (currIndex + 1 >= exp.length() || isNumeric(String.valueOf(exp.charAt(currIndex)))) {
-                    // Return curr index because it is the first invalid char
-                    return currIndex;
-                }
-                validChars.remove(currChar); // remove decimal point once its used
-            }
-
-            currIndex++;
-        }
-        return currIndex;
-    }
-
+    
     public static boolean findErrors(String input) {
-        // errors to find - two operators in a row, closed par without an open par,
-        // operator without a number/numbers to corroborate
         String[] tokens = input.split(" ");
-        // closed par without an open par
+        
+        // parentheses failure
         int numPars = 0;
         for (String token : tokens) {
-            if (token.equals("("))
-                numPars++;
-            else if (token.equals(")"))
-                numPars--;
-            if (numPars < 0)
-                return true;
+            if (token.equals("(")) numPars++;
+            else if (token.equals(")")) numPars--;
+            if (numPars < 0) return true;
         }
-        // two operators in a row, or operator without a number to corroborate
-        for (int i = 0; i < tokens.length; i++) {
-            // if its an operator
-            if (!isNumeric(tokens[i])) {
-                // if it requires two numbers
-                if (twoNumberOperators.contains(tokens[i])) {
-                    if (i == tokens.length - 1 || i == 0)
-                        return true;
-                    else if (twoNumberOperators.contains(tokens[i - 1]) || twoNumberOperators.contains(tokens[i + 1]))
-                        return true;
-                } else if (!tokens[i].equals(")") && !tokens[i].equals("(")) {
-                    if (i == tokens.length - 1)
-                        return true;
-                    else if (twoNumberOperators.contains(tokens[i + 1]))
-                        return true;
-                }
-            }
+        if (numPars > 0) return true;
+        
+        // multiple two number operators in a row
+        for (int i = 1; i < tokens.length; i++) {
+            if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) return true;
         }
         return false;
     }
 
     public static String calculate(String input) {
-        System.out.println(input);
+        findErrors(input);
         input = lookForParentheses(input);
         String[] tokens = input.split(" ");
-        if (tokens.length <= 1)
+        if (tokens.length <= 1) {
             return input;
+        }
         ArrayList<String> statements = splitStatements(tokens);
         String highestPriorityString = highestPriorityOverall(statements);
         System.out.println(highestPriorityString);
@@ -156,20 +57,20 @@ public class Translator {
         String[] tokens = input.split(" ");
         for (int i = 0; i < tokens.length; i++) {
             if (tokens[i].equals("(")) {
-                String paranthesesExpression = "";
+                String parenthesesExpression = "";
                 i++;
                 int numPars = 0;
                 while (!tokens[i].equals(")") || numPars > 0) {
-                    paranthesesExpression += tokens[i] + " ";
+                    parenthesesExpression += tokens[i] + " ";
                     if (tokens[i].equals("("))
                         numPars++;
                     else if (tokens[i].equals(")"))
                         numPars--;
                     i++;
                 }
-                String val = calculate(paranthesesExpression);
-                paranthesesExpression = "( " + paranthesesExpression + ") ";
-                input = input.replace(paranthesesExpression, val);
+                String val = calculate(parenthesesExpression);
+                parenthesesExpression = "( " + parenthesesExpression + ") ";
+                input = input.replace(parenthesesExpression, val);
             }
         }
         return input;
