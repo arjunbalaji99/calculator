@@ -96,10 +96,13 @@ public class UI {
      * initializePanels() must have already been called
      */
     private void initViewPanel() {
-        JLabel display = new JLabel();
+        JTextArea display = new JTextArea();
         display.setText("0");
+        display.setEditable(false);
+        display.setLineWrap(true); // Enable text wrapping
+        display.setWrapStyleWord(true); // Wrap on word boundaries
         display.setFont(new Font(display.getFont().getName(), Font.PLAIN, 40));
-        display.setSize(new Dimension(500, 500));
+        display.setSize(new Dimension(480, 500));
         refs.put("DisplayText", display);
         refs.get("ViewPanel").add(display);
     }
@@ -207,13 +210,13 @@ public class UI {
                     currExp += inputChar;
             }
         } catch (CalculatorException e) {
-            ((JLabel) refs.get("DisplayText")).setText(e.getType());
+            ((JTextArea) refs.get("DisplayText")).setText(e.getType());
             return;
         }
 
         // Due to padding before and after ops, double spaces exist - remove them.
         currExp = currExp.replace("  ", " ");
-        ((JLabel) refs.get("DisplayText")).setText(currExp);
+        ((JTextArea) refs.get("DisplayText")).setText(currExp);
 
         System.out.println("Updated: [" + currExp + "]");
 

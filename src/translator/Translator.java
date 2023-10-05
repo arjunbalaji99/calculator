@@ -10,12 +10,6 @@ public class Translator {
     public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("+", "-", "*", "/", "%", "^"));
 
     public static void main(String[] args) throws CalculatorException {
-        // Scanner in = new Scanner(System.in);
-        // System.out.print("Enter an expression to evaluate: ");
-        // String input = in.nextLine();
-        // if (input.isEmpty()) {
-        // input = "( ( ( ( 4 ) * 4 ) ) )";
-        // }
         String input = "( ) ) ) ";
         System.out.println(calculate(input));
     }
