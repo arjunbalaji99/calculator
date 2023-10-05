@@ -30,13 +30,13 @@ public class Translator {
         for (String token : tokens) {
             if (token.equals("(")) numPars++;
             else if (token.equals(")")) numPars--;
-            if (numPars < 0) throw new CalculatorException();
+            if (numPars < 0) throw new CalculatorException("Parentheses");
         }
-        if (numPars > 0) return true;
+        if (numPars > 0) throw new CalculatorException("Parentheses");
         
         // multiple two number operators in a row
         for (int i = 1; i < tokens.length; i++) {
-            if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) return true;
+            if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) throw new CalculatorException("Operators");
         }
         return false;
     }
