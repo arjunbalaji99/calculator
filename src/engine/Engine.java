@@ -86,6 +86,8 @@ public class Engine {
 
         if (tokens.length == 2) {
             // (OPNAME) x format
+            System.out.println("thingy: " + removeSpecialChars(tokens[1]));
+            System.out.println("expression: " + expression);
             return Operations.getResult(tokens[0], new double[] { Double.parseDouble(removeSpecialChars(tokens[1])) });
 
         } else if (tokens.length == 3) {

@@ -221,6 +221,9 @@ public class UI {
      * Evaluates currExp and returns the answer/error
      */
     private String getResult() {
-        return Translator.calculate(currExp).trim();
+        String firstSpaceRemoved = currExp.charAt(0) == ' '?
+                currExp.substring(1) : currExp;
+
+        return Translator.calculate(firstSpaceRemoved).trim();
     }
 }
