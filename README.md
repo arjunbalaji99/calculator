@@ -25,7 +25,7 @@
 
 <h2 align="center">Instructions to Run</h2>
 <ul>
-  <li>Go to UI.java and run code.</li>
+  <li>(temporary) Go to UI.java and run <code>main()</code></li>
 </ul>
 
 <h2 align="center">Citations</h2>
