@@ -7,11 +7,9 @@ import CalculatorExceptions.CalculatorException;
 import java.util.*;
 
 public class Translator {
-    public static Engine engine = new Engine();
-
     public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("+", "-", "*", "/", "%", "^"));
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CalculatorException {
         // Scanner in = new Scanner(System.in);
         // System.out.print("Enter an expression to evaluate: ");
         // String input = in.nextLine();
@@ -22,7 +20,7 @@ public class Translator {
         System.out.println(calculate(input));
     }
     
-    public static boolean findErrors(String input) throws CalculatorException {
+    public static void findErrors(String input) throws CalculatorException {
         String[] tokens = input.split(" ");
         
         // parentheses failure
@@ -38,7 +36,6 @@ public class Translator {
         for (int i = 1; i < tokens.length; i++) {
             if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) throw new CalculatorException("Operators");
         }
-        return false;
     }
 
     public static String calculate(String input) throws CalculatorException {
@@ -51,11 +48,11 @@ public class Translator {
         ArrayList<String> statements = splitStatements(tokens);
         String highestPriorityString = highestPriorityOverall(statements);
         System.out.println(highestPriorityString);
-        double val = engine.evaluate(highestPriorityString);
+        double val = Engine.evaluate(highestPriorityString);
         return calculate(input.replace(highestPriorityString, Double.toString(val)));
     }
 
-    public static String lookForParentheses(String input) {
+    public static String lookForParentheses(String input) throws CalculatorException {
         String[] tokens = input.split(" ");
         for (int i = 0; i < tokens.length; i++) {
             if (tokens[i].equals("(")) {

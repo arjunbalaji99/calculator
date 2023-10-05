@@ -3,6 +3,8 @@ package client;
 import java.awt.*;
 import java.util.HashMap;
 
+import CalculatorExceptions.CalculatorException;
+import engine.Engine;
 import translator.Translator;
 
 import javax.swing.*;
@@ -26,27 +28,21 @@ public class UI {
     HashMap<String, JComponent> refs;
 
     /**
-     * Run this with no args to generate the calculator UI.
-     * 
-     * @param args idk
+     * Holds the Engine instance which handles history, variables, etc.
      */
-    public static void main(String[] args) {
-
-        UI ui = new UI();
-        ui.mount();
-
-    }
+    Engine engine;
 
     public UI() {
         f = new JFrame(); // creating instance of JFrame
         currExp = "";
         refs = new HashMap<>();
+        engine = new Engine();
     }
 
     /**
      * Initialize all components of the instance
      */
-    private void mount() {
+    public void mount() {
 
         // Call all the initializer functions
         initializePanels();
@@ -195,18 +191,23 @@ public class UI {
 
     private void updateExpr(String inputChar) {
 
-        switch (inputChar) {
-            case "=":
-                currExp = getResult();
-                break;
-            case "C":
-                currExp = "";
-                break;
-            case "Del":
-                currExp = currExp.substring(0, Math.max(0, currExp.length() - 1));
-                break;
-            default:
-                currExp += inputChar;
+        try {
+
+            switch (inputChar) {
+                case "=":
+                    currExp = getResult();
+                    break;
+                case "C":
+                    currExp = "";
+                    break;
+                case "Del":
+                    currExp = currExp.substring(0, Math.max(0, currExp.length() - 1));
+                    break;
+                default:
+                    currExp += inputChar;
+            }
+        } catch (CalculatorException e) {
+            ((JLabel) refs.get("DisplayText")).setText(e.getType());
         }
 
         // Due to padding before and after ops, double spaces exist - remove them.
@@ -220,7 +221,7 @@ public class UI {
     /**
      * Evaluates currExp and returns the answer/error
      */
-    private String getResult() {
+    private String getResult() throws CalculatorException {
         String firstSpaceRemoved = currExp.charAt(0) == ' '?
                 currExp.substring(1) : currExp;
 

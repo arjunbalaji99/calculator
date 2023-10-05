@@ -83,7 +83,7 @@ public class Engine {
      *                   whitespace between tokens.
      * @return the result of the operation.
      */
-    public double evaluate(String expression) throws CalculatorException {
+    public static double evaluate(String expression) throws CalculatorException {
         String[] tokens = expression.split(" ");
 
         if (tokens.length == 2) {
@@ -111,7 +111,7 @@ public class Engine {
      * @param input original such as —9.2
      * @return replaced negative -> -9.2
      */
-    private String removeSpecialChars(String input) {
+    private static String removeSpecialChars(String input) {
         return input.replace("—", "-");
     }
 
