@@ -208,6 +208,7 @@ public class UI {
             }
         } catch (CalculatorException e) {
             ((JLabel) refs.get("DisplayText")).setText(e.getType());
+            return;
         }
 
         // Due to padding before and after ops, double spaces exist - remove them.
