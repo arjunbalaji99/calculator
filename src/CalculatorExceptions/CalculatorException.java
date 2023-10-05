@@ -2,8 +2,8 @@ package CalculatorExceptions;
 
 public class CalculatorException extends Exception {
 
-    private String type;
-    private String selfMessage;
+    private final String type;
+    private final String selfMessage;
 
     /**
      * General Exception object for Translator, Engine, and UI
@@ -19,6 +19,11 @@ public class CalculatorException extends Exception {
     public CalculatorException(String type, String message) {
         super(message);
         this.selfMessage = message;
+        this.type = type;
+    }
+
+    public CalculatorException(String type) {
+        this.selfMessage = "Error";
         this.type = type;
     }
 
