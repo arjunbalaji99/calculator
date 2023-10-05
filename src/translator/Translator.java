@@ -2,6 +2,8 @@ package translator;
 
 import engine.Engine;
 
+import CalculatorExceptions.CalculatorException;
+
 import java.util.*;
 
 public class Translator {
@@ -20,7 +22,7 @@ public class Translator {
         System.out.println(calculate(input));
     }
     
-    public static boolean findErrors(String input) {
+    public static boolean findErrors(String input) throws CalculatorException {
         String[] tokens = input.split(" ");
         
         // parentheses failure
@@ -28,7 +30,7 @@ public class Translator {
         for (String token : tokens) {
             if (token.equals("(")) numPars++;
             else if (token.equals(")")) numPars--;
-            if (numPars < 0) return true;
+            if (numPars < 0) throw new CalculatorException();
         }
         if (numPars > 0) return true;
         
@@ -39,7 +41,7 @@ public class Translator {
         return false;
     }
 
-    public static String calculate(String input) {
+    public static String calculate(String input) throws CalculatorException {
         findErrors(input);
         input = lookForParentheses(input);
         String[] tokens = input.split(" ");
