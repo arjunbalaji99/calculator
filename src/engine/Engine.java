@@ -1,5 +1,7 @@
 package engine;
 
+import CalculatorExceptions.CalculatorException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -81,7 +83,7 @@ public class Engine {
      *                   whitespace between tokens.
      * @return the result of the operation.
      */
-    public double evaluate(String expression) throws IllegalArgumentException {
+    public double evaluate(String expression) throws CalculatorException {
         String[] tokens = expression.split(" ");
 
         if (tokens.length == 2) {

@@ -205,12 +205,16 @@ public class Operations {
                     return ARCCOT(operands[0]);
 
                 default:
-                    throw new CalculatorException("invalidOperation", "Invalid operation requested for " + opName + " with operands "
-                            + Arrays.toString(operands));
+                    throw new CalculatorException(
+                            "invalidOperation",
+                            "Invalid operation requested for " + opName + " with operands " + Arrays.toString(operands)
+                    );
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException(
-                    "Invalid operands provided for operation " + opName + ". (" + operands.length + " were given)");
+            throw new CalculatorException(
+                    "syntax",
+                    "Invalid operands provided for operation " + opName + ". (" + operands.length + " were given)"
+            );
         }
     }
 
