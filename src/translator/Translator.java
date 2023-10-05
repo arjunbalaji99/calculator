@@ -16,7 +16,7 @@ public class Translator {
         // if (input.isEmpty()) {
         // input = "( ( ( ( 4 ) * 4 ) ) )";
         // }
-        String input = "4 * 3";
+        String input = "( ) ) ) ";
         System.out.println(calculate(input));
     }
     
@@ -28,13 +28,13 @@ public class Translator {
         for (String token : tokens) {
             if (token.equals("(")) numPars++;
             else if (token.equals(")")) numPars--;
-            if (numPars < 0) throw new CalculatorException("Parentheses");
+            if (numPars < 0) throw new CalculatorException("parentheses");
         }
-        if (numPars > 0) throw new CalculatorException("Parentheses");
+        if (numPars > 0) throw new CalculatorException("parentheses");
         
         // multiple two number operators in a row
         for (int i = 1; i < tokens.length; i++) {
-            if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) throw new CalculatorException("Operators");
+            if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) throw new CalculatorException("syntax");
         }
     }
 
