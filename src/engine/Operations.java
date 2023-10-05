@@ -1,11 +1,9 @@
 package engine;
 
+import CalculatorExceptions.CalculatorException;
+
 import java.util.Arrays;
 import java.util.HashMap;
-
-class InvalidOperationError {
-
-}
 
 /**
  * __Included operations__
@@ -129,7 +127,7 @@ public class Operations {
      *
      * @return A double result of the operation
      */
-    public static double getResult(String opName, double[] operands) throws IllegalArgumentException {
+    public static double getResult(String opName, double[] operands) throws IllegalArgumentException, CalculatorException {
 
         try {
             switch (opName) {
@@ -207,7 +205,7 @@ public class Operations {
                     return ARCCOT(operands[0]);
 
                 default:
-                    throw new IllegalArgumentException("Invalid operation requested for " + opName + " with operands "
+                    throw new CalculatorException("invalidOperation", "Invalid operation requested for " + opName + " with operands "
                             + Arrays.toString(operands));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
