@@ -207,7 +207,7 @@ public class UI {
                     currExp += inputChar;
             }
         } catch (CalculatorException e) {
-            ((JLabel) refs.get("DisplayText")).setText(e.getType());
+            ((JLabel) refs.get("DisplayText")).setText(e.getDisplayMessage());
             return;
         }
 
