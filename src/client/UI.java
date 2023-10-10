@@ -150,7 +150,7 @@ public class UI {
     private void addOperationButtons(JPanel container) {
         String[] ops = new String[] {
                 " + ", " - ", " * ", " / ", ".", "=", " ( ", " ) ", "C", "Del",
-                " log10 ( ", " ln ( ", " abs ( ", " ^ ( ", " % ( ", "—",
+                " log10 ( ", " ln ( ", "log", " abs ( ", " ^ ( ", " % ", "—",
                 " ^ 2 ", " sqrt ( ", " ^ 3 ", " cbrt ( ", "ans",
                 " sin ( ", " cos ( ", " tan ( ", " sec ( ", " csc ( ", " cot ( ",
                 " arcsin ( ", " arccos ( ", " arctan ( ", " arcsec ( ", " arccsc ( ", " arccot ( ",
@@ -196,6 +196,8 @@ public class UI {
     }
 
     private void updateExpr(String inputChar) {
+        // if we want to remove expression staying add this code
+         if (currExp.equals(engine.getAns())) currExp = "";
         try {
 
             switch (inputChar) {
@@ -207,12 +209,13 @@ public class UI {
                     currExp = "";
                     break;
                 case "Del":
-                    currExp = currExp.replace(additionsHistory.get(additionsHistory.size() - 1), "");
-                    additionsHistory.remove(additionsHistory.size() - 1);
-                    // currExp = currExp.substring(0, Math.max(0, currExp.length() - 1));
+                    currExp = deleteLast(currExp);
                     break;
                 case "ans":
                     currExp += engine.getAns();
+                    break;
+                case "log":
+                    currExp = "haha this doesnt work";
                     break;
                 default:
                     currExp += inputChar;
@@ -226,6 +229,14 @@ public class UI {
         // Due to padding before and after ops, double spaces exist - remove them.
         currExp = currExp.replace("  ", " ");
         ((JTextArea) refs.get("DisplayText")).setText(currExp);
+    }
+
+    private String deleteLast(String currExp) {
+        String deleteExpression = additionsHistory.get(additionsHistory.size() - 1);
+        int start = currExp.lastIndexOf(deleteExpression);
+        String newExp = currExp.substring(0, start);
+        additionsHistory.remove(additionsHistory.size() - 1);
+        return newExp;
     }
 
     /**
