@@ -197,7 +197,10 @@ public class UI {
 
     private void updateExpr(String inputChar) {
         // if we want to remove expression staying add this code
-         if (currExp.equals(engine.getAns())) currExp = "";
+         if (currExp.equals(engine.getAns())) {
+             currExp = "";
+             additionsHistory.clear();
+         }
         try {
 
             switch (inputChar) {
