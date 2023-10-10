@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class Engine {
 
-    double ANS = 0;
+    String ANS = "";
 
     /**
      * Stores the current variables A (0) -> Z (25)
@@ -40,6 +40,18 @@ public class Engine {
                     "initVars must have length 26 to cover each capital letter. Given length: " + initVars.length);
         }
         this.VARS = initVars;
+    }
+
+    public void addHistory(String result) {
+        HIST.add(result);
+    }
+
+    public void storeAns(String result) {
+        ANS = result;
+    }
+
+    public String getAns() {
+        return ANS;
     }
 
     /**

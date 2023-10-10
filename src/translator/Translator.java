@@ -8,15 +8,18 @@ import java.util.*;
 
 public class Translator {
     public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("+", "-", "*", "/", "%", "^"));
+    public static ArrayList<String> oneNumberOperators = new ArrayList<>(Arrays.asList("sqrt", "cbrt", "log10", "ln", "abs", "sin", "cos", "tan", "sec", "cot", "arcsin", "arccos", "arctan", "arcsec", "arccsc", "arccot"));
 
     public static void main(String[] args) throws CalculatorException {
-        String input = "( ) ) ) ";
+        String input = "ln ( 12 ) abs ( 12 ) ";
         System.out.println(calculate(input));
     }
     
     public static void findErrors(String input) throws CalculatorException {
         String[] tokens = input.split(" ");
-        
+
+        if (tokens.length < 1) return;
+
         // parentheses failure
         int numPars = 0;
         for (String token : tokens) {
@@ -25,15 +28,46 @@ public class Translator {
             if (numPars < 0) throw new CalculatorException("parentheses");
         }
         if (numPars > 0) throw new CalculatorException("parentheses");
-        
+
+        // starting with two number operator
+        if (twoNumberOperators.contains(tokens[0])) throw new CalculatorException("syntax");
         // multiple two number operators in a row
         for (int i = 1; i < tokens.length; i++) {
-            if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) throw new CalculatorException("syntax");
+            if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) {
+                System.out.println("input string: " + input + " and error at: " + i);
+                throw new CalculatorException("syntax");
+            }
         }
     }
 
+    public static String addMultiplicationSigns(String input) {
+        String[] tokens = input.split(" ");
+        ArrayList<Integer> timesIndex = new ArrayList<>();
+        for (int i = 0; i < tokens.length - 1; i++) {
+            if (isNumeric(tokens[i]) || oneNumberOperators.contains(tokens[i])) {
+                if (isNumeric(tokens[i + 1]) || oneNumberOperators.contains(tokens[i + 1])) {
+                    timesIndex.add(i);
+                }
+            }
+            else if (tokens[i].equals(")") && (isNumeric(tokens[i + 1])) || oneNumberOperators.contains(tokens[i + 1])) timesIndex.add(i);
+        }
+        String revisedInput = "";
+        for (int i = 0; i < tokens.length; i++) {
+            revisedInput += tokens[i] + " ";
+            if (timesIndex.contains(i)) {
+                revisedInput += "* ";
+            }
+        }
+        return revisedInput;
+    }
+
     public static String calculate(String input) throws CalculatorException {
+        input = addMultiplicationSigns(input);
         findErrors(input);
+        return calculateRecursive(input);
+    }
+
+    public static String calculateRecursive(String input) throws CalculatorException {
         input = lookForParentheses(input);
         String[] tokens = input.split(" ");
         if (tokens.length <= 1) {
@@ -43,7 +77,7 @@ public class Translator {
         String highestPriorityString = highestPriorityOverall(statements);
         System.out.println(highestPriorityString);
         double val = Engine.evaluate(highestPriorityString);
-        return calculate(input.replace(highestPriorityString, Double.toString(val)));
+        return calculateRecursive(input.replace(highestPriorityString, Double.toString(val)));
     }
 
     public static String lookForParentheses(String input) throws CalculatorException {
@@ -61,7 +95,7 @@ public class Translator {
                         numPars--;
                     i++;
                 }
-                String val = calculate(parenthesesExpression);
+                String val = calculateRecursive(parenthesesExpression);
                 parenthesesExpression = "( " + parenthesesExpression + ") ";
                 input = input.replace(parenthesesExpression, val);
             }
@@ -71,7 +105,7 @@ public class Translator {
 
     public static ArrayList<String> splitStatements(String[] tokens) {
         ArrayList<String> statements = new ArrayList<>();
-        for (int i = 0; i < tokens.length; i++) {
+        for (int i = 0; i < tokens.length - 1; i++) {
             // means it is an operator
             if (!isNumeric(tokens[i])) {
                 if (twoNumberOperators.contains(tokens[i]))

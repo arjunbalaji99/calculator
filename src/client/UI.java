@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import CalculatorExceptions.CalculatorException;
@@ -31,6 +32,8 @@ public class UI {
      * Holds the Engine instance which handles history, variables, etc.
      */
     Engine engine;
+
+    ArrayList<String> additionsHistory = new ArrayList<>();
 
     public UI() {
         f = new JFrame(); // creating instance of JFrame
@@ -67,7 +70,7 @@ public class UI {
         // Calculator Body
         JPanel container = new JPanel();
         container.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        container.setBounds(0, 0, 500, 700);
+        container.setBounds(0, 0, 500, 600);
         container.setLayout(new GridLayout(2, 1));
 
         // Panel that contains the display (shows equation/answers)
@@ -147,8 +150,8 @@ public class UI {
     private void addOperationButtons(JPanel container) {
         String[] ops = new String[] {
                 " + ", " - ", " * ", " / ", ".", "=", " ( ", " ) ", "C", "Del",
-                " log10 ( ", " log ( ", " ln ( ", " abs ( ", " ^ ( ", " % ( ", "—",
-                " ^ 2 ", " sqrt ( ", " ^ 3 ", " cbrt ( ",
+                " log10 ( ", " ln ( ", " abs ( ", " ^ ( ", " % ( ", "—",
+                " ^ 2 ", " sqrt ( ", " ^ 3 ", " cbrt ( ", "ans",
                 " sin ( ", " cos ( ", " tan ( ", " sec ( ", " csc ( ", " cot ( ",
                 " arcsin ( ", " arccos ( ", " arctan ( ", " arcsec ( ", " arccsc ( ", " arccot ( ",
         };
@@ -193,21 +196,27 @@ public class UI {
     }
 
     private void updateExpr(String inputChar) {
-
         try {
 
             switch (inputChar) {
                 case "=":
                     currExp = getResult();
+                    engine.storeAns(currExp);
                     break;
                 case "C":
                     currExp = "";
                     break;
                 case "Del":
-                    currExp = currExp.substring(0, Math.max(0, currExp.length() - 1));
+                    currExp = currExp.replace(additionsHistory.get(additionsHistory.size() - 1), "");
+                    additionsHistory.remove(additionsHistory.size() - 1);
+                    // currExp = currExp.substring(0, Math.max(0, currExp.length() - 1));
+                    break;
+                case "ans":
+                    currExp += engine.getAns();
                     break;
                 default:
                     currExp += inputChar;
+                    additionsHistory.add(inputChar);
             }
         } catch (CalculatorException e) {
             ((JTextArea) refs.get("DisplayText")).setText(e.getType());
@@ -217,9 +226,6 @@ public class UI {
         // Due to padding before and after ops, double spaces exist - remove them.
         currExp = currExp.replace("  ", " ");
         ((JTextArea) refs.get("DisplayText")).setText(currExp);
-
-        System.out.println("Updated: [" + currExp + "]");
-
     }
 
     /**
