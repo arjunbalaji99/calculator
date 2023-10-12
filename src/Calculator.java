@@ -10,7 +10,6 @@ public class Calculator {
      * @param args idk
      */
     public static void main(String[] args) {
-
         UI ui = new UI();
         ui.mount();
 

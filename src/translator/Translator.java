@@ -11,7 +11,7 @@ public class Translator {
     public static ArrayList<String> oneNumberOperators = new ArrayList<>(Arrays.asList("sqrt", "cbrt", "log10", "ln", "abs", "sin", "cos", "tan", "sec", "cot", "arcsin", "arccos", "arctan", "arcsec", "arccsc", "arccot"));
 
     public static void main(String[] args) throws CalculatorException {
-        String input = "ln ( 12 ) abs ( 12 ) ";
+        String input = "abs ( abs ( 55 + 11 ) ) ";
         System.out.println(calculate(input));
     }
     
@@ -19,6 +19,9 @@ public class Translator {
         String[] tokens = input.split(" ");
 
         if (tokens.length < 1) return;
+
+        // multiple decimals
+        if (input.length() - input.replace(".", "").length() > 1) throw new CalculatorException("decimals");
 
         // parentheses failure
         int numPars = 0;
@@ -31,10 +34,12 @@ public class Translator {
 
         // starting with two number operator
         if (twoNumberOperators.contains(tokens[0])) throw new CalculatorException("syntax");
-        // multiple two number operators in a row
+        // multiple two number operators in a row or two number operators with parantheses in front
         for (int i = 1; i < tokens.length; i++) {
             if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) {
-                System.out.println("input string: " + input + " and error at: " + i);
+                throw new CalculatorException("syntax");
+            }
+            if (twoNumberOperators.contains(tokens[i]) && (tokens[i - 1].equals("("))) {
                 throw new CalculatorException("syntax");
             }
         }
@@ -44,12 +49,12 @@ public class Translator {
         String[] tokens = input.split(" ");
         ArrayList<Integer> timesIndex = new ArrayList<>();
         for (int i = 0; i < tokens.length - 1; i++) {
-            if (isNumeric(tokens[i]) || oneNumberOperators.contains(tokens[i])) {
+            if (tokens[i].equals(")")) {
                 if (isNumeric(tokens[i + 1]) || oneNumberOperators.contains(tokens[i + 1])) {
                     timesIndex.add(i);
                 }
             }
-            else if (tokens[i].equals(")") && (isNumeric(tokens[i + 1])) || oneNumberOperators.contains(tokens[i + 1])) timesIndex.add(i);
+            else if (isNumeric(tokens[i]) && oneNumberOperators.contains(tokens[i + 1])) timesIndex.add(i);
         }
         String revisedInput = "";
         for (int i = 0; i < tokens.length; i++) {
@@ -63,6 +68,7 @@ public class Translator {
 
     public static String calculate(String input) throws CalculatorException {
         input = addMultiplicationSigns(input);
+        input = removeSpecialChars(input);
         findErrors(input);
         return calculateRecursive(input);
     }
@@ -75,7 +81,6 @@ public class Translator {
         }
         ArrayList<String> statements = splitStatements(tokens);
         String highestPriorityString = highestPriorityOverall(statements);
-        System.out.println(highestPriorityString);
         double val = Engine.evaluate(highestPriorityString);
         return calculateRecursive(input.replace(highestPriorityString, Double.toString(val)));
     }
@@ -115,6 +120,21 @@ public class Translator {
             }
         }
         return statements;
+    }
+
+    public static String removeSpecialChars(String input) {
+//        return input.replace("—", "-");
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == '—') {
+                if (i > 0 && isNumeric(input.substring(i - 2, i - 1))) {
+                    input = input.substring(0, i) + " - " + input.substring(i + 1);
+                }
+                else {
+                    input = input.substring(0, i) + "-" + input.substring(i + 1);
+                }
+            }
+        }
+        return input;
     }
 
     public static boolean isNumeric(String token) {

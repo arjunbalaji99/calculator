@@ -96,35 +96,25 @@ public class Engine {
      * @return the result of the operation.
      */
     public static double evaluate(String expression) throws CalculatorException {
+        // superior functionality
+//        if (expression.equals("9 + 10")) return 21.0;
+
         String[] tokens = expression.split(" ");
 
         if (tokens.length == 2) {
             // (OPNAME) x format
-            System.out.println("thingy: " + removeSpecialChars(tokens[1]));
-            System.out.println("expression: " + expression);
-            return Operations.getResult(tokens[0], new double[] { Double.parseDouble(removeSpecialChars(tokens[1])) });
+            return Operations.getResult(tokens[0], new double[] { Double.parseDouble(tokens[1]) });
 
         } else if (tokens.length == 3) {
             // x (OPNAME) y format
             return Operations.getResult(
                     tokens[1],
-                    new double[] { Double.parseDouble(removeSpecialChars(tokens[0])),
-                            Double.parseDouble(removeSpecialChars(tokens[2])) });
+                    new double[] { Double.parseDouble(tokens[0]),
+                            Double.parseDouble(tokens[2])});
         }
 
         throw new IllegalArgumentException(
                 "Invalid number of tokens provided for expression. 2 or 3 required. Provided: " + tokens.length);
-    }
-
-    /**
-     * Removes the special negative symbol used (—) with (-) so that it can be
-     * parsed
-     * 
-     * @param input original such as —9.2
-     * @return replaced negative -> -9.2
-     */
-    private static String removeSpecialChars(String input) {
-        return input.replace("—", "-");
     }
 
 }

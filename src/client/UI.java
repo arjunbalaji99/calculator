@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.*;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,6 +35,8 @@ public class UI {
     Engine engine;
 
     ArrayList<String> additionsHistory = new ArrayList<>();
+
+    ArrayList<ArrayList<String>> history = new ArrayList<>();
 
     public UI() {
         f = new JFrame(); // creating instance of JFrame
@@ -150,7 +153,7 @@ public class UI {
     private void addOperationButtons(JPanel container) {
         String[] ops = new String[] {
                 " + ", " - ", " * ", " / ", ".", "=", " ( ", " ) ", "C", "Del",
-                " log10 ( ", " ln ( ", "log", " abs ( ", " ^ ( ", " % ", "—",
+                " log10 ( ", " ln ( ", "log", " abs ( ", " ^ ( ", " % ", "[—]",
                 " ^ 2 ", " sqrt ( ", " ^ 3 ", " cbrt ( ", "ans",
                 " sin ( ", " cos ( ", " tan ( ", " sec ( ", " csc ( ", " cot ( ",
                 " arcsin ( ", " arccos ( ", " arctan ( ", " arcsec ( ", " arccsc ( ", " arccot ( ",
@@ -196,17 +199,21 @@ public class UI {
     }
 
     private void updateExpr(String inputChar) {
-        // if we want to remove expression staying add this code
          if (currExp.equals(engine.getAns())) {
-             currExp = "";
+             // if we want to remove expression staying add this code
+//             currExp = "";
              additionsHistory.clear();
          }
         try {
 
             switch (inputChar) {
                 case "=":
+                    ArrayList<String> historyAddition = new ArrayList<>();
+                    historyAddition.add(currExp);
                     currExp = getResult();
                     engine.storeAns(currExp);
+                    historyAddition.add(currExp);
+                    history.add(historyAddition);
                     break;
                 case "C":
                     currExp = "";
@@ -220,26 +227,54 @@ public class UI {
                 case "log":
                     currExp = "haha this doesnt work";
                     break;
+                case "[—]":
+                    currExp += "—";
+                    break;
                 default:
                     currExp += inputChar;
-                    additionsHistory.add(inputChar);
+                    additionsHistory.add(inputChar.trim());
             }
         } catch (CalculatorException e) {
+            currExp = "";
             ((JTextArea) refs.get("DisplayText")).setText(e.getType());
             return;
         }
-
-        // Due to padding before and after ops, double spaces exist - remove them.
-        currExp = currExp.replace("  ", " ");
+        currExp = trimExpression(currExp);
         ((JTextArea) refs.get("DisplayText")).setText(currExp);
     }
 
+    private String trimExpression(String currExp) {
+        // Due to padding before and after ops, double spaces exist - remove them.
+        if (!currExp.isEmpty()) {
+            currExp = currExp.replace("  ", " ");
+            if (currExp.charAt(currExp.length() - 1) == ' ') {
+                if (isNumeric(currExp.substring(currExp.length() - 3, currExp.length() - 1)))
+                    currExp = currExp.substring(0, currExp.length() - 1);
+            }
+        }
+        return currExp;
+    }
+
     private String deleteLast(String currExp) {
-        String deleteExpression = additionsHistory.get(additionsHistory.size() - 1);
-        int start = currExp.lastIndexOf(deleteExpression);
-        String newExp = currExp.substring(0, start);
-        additionsHistory.remove(additionsHistory.size() - 1);
-        return newExp;
+
+        if (currExp.isEmpty()) return currExp;
+        else {
+            if (additionsHistory.isEmpty()) return currExp.substring(0, currExp.length() - 1);
+            String deleteExpression = additionsHistory.get(additionsHistory.size() - 1);
+            int start = currExp.lastIndexOf(deleteExpression);
+            String newExp = currExp.substring(0, start);
+            additionsHistory.remove(additionsHistory.size() - 1);
+            return newExp;
+        }
+    }
+
+    private boolean isNumeric(String token) {
+        try {
+            Double.parseDouble(token.replace('—', '-'));
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     /**
