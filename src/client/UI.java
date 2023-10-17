@@ -34,15 +34,17 @@ public class UI {
      */
     Engine engine;
 
-    ArrayList<String> additionsHistory = new ArrayList<>();
+    ArrayList<String> additionsHistory;
 
-    ArrayList<ArrayList<String>> history = new ArrayList<>();
+    ArrayList<ArrayList<String>> history;
 
     public UI() {
         f = new JFrame(); // creating instance of JFrame
         currExp = "";
         refs = new HashMap<>();
         engine = new Engine();
+        additionsHistory = new ArrayList<>();
+        history = new ArrayList<>();
     }
 
     /**

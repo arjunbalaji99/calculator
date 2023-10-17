@@ -130,7 +130,7 @@ public class Translator {
                     input = input.substring(0, i) + " - " + input.substring(i + 1);
                 }
                 else {
-                    input = input.substring(0, i) + "-" + input.substring(i + 1);
+                    input = input.substring(0, i) + "-1 * " + input.substring(i + 1);
                 }
             }
         }
