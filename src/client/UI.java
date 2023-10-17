@@ -65,7 +65,7 @@ public class UI {
     }
 
     /**
-     * Adds the base containers (overall testdfsd, view panel, buttons panel) to
+     * Adds the base containers (overall mainContainer, view panel, buttons panel) to
      * the main JFrame.
      */
 
