@@ -96,7 +96,7 @@ public class NewUI {
         button_square = new CustomButton("^2", new DisplayPrinter(display, " ^ 2 "));
         button_sqrt = new CustomButton("sqrt", new DisplayPrinter(display, " sqrt ( "));
         button_xroot = new CustomButton("xroot", new DisplayPrinter(display, " xroot ("));
-        button_backspace = new CustomButton("Del", new DisplayPrinter(display, "del"));
+        button_backspace = new CustomButton("del", new DisplayPrinter(display, "del"));
         button_sin = new CustomButton("sin", new DisplayPrinter(display, " sin ( "));
         button_cos = new CustomButton("cos", new DisplayPrinter(display, " cos ( "));
         button_tan = new CustomButton("tan", new DisplayPrinter(display, " tan ( "));

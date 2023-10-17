@@ -4,15 +4,18 @@ import CalculatorExceptions.CalculatorException;
 import translator.Translator;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class DisplayPrinter {
 
     String text;
     JTextPane display;
+    ArrayList<String> additionsHistory;
 
     public DisplayPrinter(JTextPane display, String displayText) {
         this.text = displayText;
         this.display = display;
+        this.additionsHistory = new ArrayList<>();
     }
 
     public void execCommand() {
@@ -28,6 +31,7 @@ public class DisplayPrinter {
                 del();
                 break;
             default:
+                additionsHistory.add(this.text);
                 print(this.text);
         }
     }
@@ -59,8 +63,14 @@ public class DisplayPrinter {
     }
 
     private void del() {
-        // TODO
         String currText = display.getText();
-        display.setText(currText.substring(0, currText.length() - 1));
+        if (currText.isEmpty()) display.setText(currText);
+        else {
+            if (additionsHistory.isEmpty()) display.setText(currText.substring(0, currText.length() - 1));
+            String deleteExpression = additionsHistory.get(additionsHistory.size() - 1);
+            int start = currText.lastIndexOf(deleteExpression);
+            display.setText(currText.substring(0, start));
+            additionsHistory.remove(additionsHistory.size() - 1);
+        }
     }
 }

@@ -285,7 +285,7 @@
                   <background color="-13354170"/>
                   <font name="Inter Semi Bold" size="18" style="0"/>
                   <foreground color="-4207922"/>
-                  <text value="&lt;-"/>
+                  <text value="del"/>
                 </properties>
               </component>
               <component id="751ea" class="javax.swing.JButton" binding="button_pi" custom-create="true">
