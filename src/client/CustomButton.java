@@ -17,7 +17,7 @@ public class CustomButton extends JButton {
 
         setBackground(new Color(52, 59, 70));
         setForeground(Color.WHITE);
-        setBorder(new RoundedBorder(5));
+        setBorder(new RoundedBorder(5, Color.BLACK));
 
         addActionListener(new ActionListener() {
             @Override
@@ -31,32 +31,26 @@ public class CustomButton extends JButton {
     public CustomButton(String text, Method onClick) {
         super(text);
         setForeground(Color.WHITE);
-        setBorder(new RoundedBorder(5));
+        setBorder(new RoundedBorder(15, Color.BLACK));
+    }
+
+    public CustomButton(String text, DisplayPrinter runner) {
+        super(text);
+        setForeground(Color.WHITE);
+        setBorder(new RoundedBorder(15, Color.BLACK));
+
+        addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                clicked = !clicked;
+                runner.execCommand();
+                repaint();
+            }
+        });
+
     }
 
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-    }
-}
-
-class RoundedBorder implements Border {
-
-    private final int radius;
-
-    RoundedBorder(int radius) {
-        this.radius = radius;
-    }
-
-    public Insets getBorderInsets(Component c) {
-        return new Insets(this.radius+1, this.radius+1, this.radius+2, this.radius);
-    }
-
-    public boolean isBorderOpaque() {
-        return true;
-    }
-
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        g.setColor(new Color(0, 0, 0, 0));
-        g.drawRoundRect(x, y, width-1, height-1, radius, radius);
     }
 }

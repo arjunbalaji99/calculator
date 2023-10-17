@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="client.Thingy2">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="client.NewUI">
   <grid id="27dc6" binding="mainContainer" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="5" left="5" bottom="5" right="5"/>
     <constraints>
@@ -303,7 +303,7 @@
                   <text value="pi"/>
                 </properties>
               </component>
-              <component id="1c2b6" class="javax.swing.JButton" binding="button_logx" custom-create="true">
+              <component id="1c2b6" class="javax.swing.JButton" binding="button_e" custom-create="true">
                 <constraints>
                   <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="1.0" weighty="1.0"/>
@@ -312,7 +312,7 @@
                   <background color="-13354170"/>
                   <font name="Inter Semi Bold" size="18" style="0"/>
                   <foreground color="-4207922"/>
-                  <text value="logx"/>
+                  <text value="e"/>
                 </properties>
               </component>
               <component id="99385" class="javax.swing.JButton" binding="button_plus" custom-create="true">
@@ -569,7 +569,7 @@
               </component>
             </children>
           </grid>
-          <component id="98ddb" class="javax.swing.JTextPane" binding="display">
+          <component id="98ddb" class="javax.swing.JTextPane" binding="display" custom-create="true">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="50"/>
@@ -583,7 +583,7 @@
               <margin top="5" left="10" bottom="5" right="10"/>
               <selectedTextColor color="-3813930"/>
               <selectionColor color="-12298397"/>
-              <text value="2+6"/>
+              <text value=""/>
               <toolTipText value=""/>
             </properties>
             <clientProperties>
