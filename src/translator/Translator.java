@@ -137,6 +137,17 @@ public class Translator {
         return input;
     }
 
+    public static String prettifyExpression(String currExp) {
+        currExp = currExp.replace(" ", "");
+        for (int i = 1; i < currExp.length(); i++) {
+            if (twoNumberOperators.contains(currExp.substring(i, i + 1))) {
+                currExp = currExp.substring(0, i) + " " + currExp.charAt(i) + " " + currExp.substring(i + 1);
+                i+=2;
+            }
+        }
+        return currExp;
+    }
+
     public static boolean isNumeric(String token) {
         try {
             Double.parseDouble(token.replace('—', '-'));
