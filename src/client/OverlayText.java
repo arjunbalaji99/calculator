@@ -3,20 +3,16 @@ package client;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class RoundedBorder implements Border {
+public class OverlayText implements Border {
+    private final Color color;
 
-    private int radius;
-    private Color color;
-
-
-    public RoundedBorder(int radius, Color color) {
-        this.radius = radius;
+    public OverlayText(Color color) {
         this.color = color;
     }
 
 
     public Insets getBorderInsets(Component c) {
-        return new Insets(this.radius+5, this.radius+5, this.radius+6, this.radius+4);
+        return new Insets(0, 0, 0, 0);
     }
 
 
@@ -27,6 +23,6 @@ public class RoundedBorder implements Border {
 
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         g.setColor(this.color);
-        g.drawRoundRect(x, y, width-1, height-1, radius, radius);
+        g.drawString("TEST", 20, 20);
     }
 }

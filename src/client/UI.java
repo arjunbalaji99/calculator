@@ -1,6 +1,8 @@
 package client;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,19 +78,26 @@ public class UI {
         JPanel container = new JPanel();
         container.setBounds(0, 0, 300, 200);
         container.setLayout(new GridBagLayout());
+        container.setBackground(new Color(52, 59, 70));
         GridBagConstraints c = new GridBagConstraints();
 
         // Panel that contains the display (shows equation/answers)
         JPanel view = new JPanel();
-        view.setPreferredSize(new Dimension(300, 250));
-        c.fill = GridBagConstraints.VERTICAL;
+        view.setPreferredSize(new Dimension(300, 150));
+        view.setBackground(new Color(26, 32, 42));
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.ipady = 10;
+        container.add(view, c);
 
         // Panel containing the controls
         JPanel buttons = new JPanel();
-
-        // Mount on UI
-        container.add(view);
-        container.add(buttons);
+        buttons.setBackground(new Color(52, 59, 70));
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 1;
+        container.add(buttons, c);
 
         // Add refs to instance collection
         refs.put("MainPanel", container);
@@ -107,7 +116,9 @@ public class UI {
         display.setLineWrap(true); // Enable text wrapping
         display.setWrapStyleWord(true); // Wrap on word boundaries
         display.setFont(new Font(display.getFont().getName(), Font.PLAIN, 40));
-        display.setSize(new Dimension(300, 100));
+        display.setBackground(new Color(26, 32, 42));
+        display.setForeground(Color.WHITE);
+        display.setPreferredSize(new Dimension(CustomButton.BUTTON_WIDTH * 6 + 25, 200));
         refs.put("DisplayText", display);
         refs.get("ViewPanel").add(display);
     }
@@ -123,6 +134,8 @@ public class UI {
         GridLayout g = new GridLayout();
         g.setColumns(6);
         g.setRows(8);
+        g.setHgap(5);
+        g.setVgap(5);
 
         buttonPanel.setLayout(g);
 
@@ -133,15 +146,10 @@ public class UI {
 
     private void addNumberButtons(JPanel container) {
         for (int i = 0; i < 10; i++) {
-            JButton temp = new JButton();
-            temp.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            temp.setBackground(Color.WHITE);
-            temp.setSize(150, 200);
-            temp.setPreferredSize(new Dimension(50, 50));
+            CustomButton temp = new CustomButton(i + "");
             refs.put("Button_" + i, temp);
-            temp.setText(i + "");
 
-            int finalI = i;
+            final int finalI = i;
             temp.addActionListener(actionEvent -> {
                 updateExpr(finalI + "");
             });
@@ -159,14 +167,9 @@ public class UI {
                 " arcsin ( ", " arccos ( ", " arctan ( ", " arcsec ( ", " arccsc ( ", " arccot ( ",
         };
         for (String op : ops) {
-            JButton temp = new JButton();
-            temp.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            temp.setBackground(Color.WHITE);
-            temp.setSize(150, 200);
-            temp.setPreferredSize(new Dimension(50, 50));
+            CustomButton temp = new CustomButton(removeTokenizers(op));
 
             refs.put("Button_" + op, temp);
-            temp.setText(removeTokenizers(op));
 
             temp.addActionListener(actionEvent -> {
                 updateExpr(op);
