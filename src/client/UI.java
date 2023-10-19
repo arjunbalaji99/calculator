@@ -201,11 +201,6 @@ public class UI {
     }
 
     private void updateExpr(String inputChar) {
-         if (currExp.equals(engine.getAns())) {
-             // if we want to remove expression staying add this code
-//             currExp = "";
-             additionsHistory.clear();
-         }
         try {
 
             switch (inputChar) {
@@ -216,6 +211,7 @@ public class UI {
                     engine.storeAns(currExp);
                     historyAddition.add(currExp);
                     history.add(historyAddition);
+                    additionsHistory.clear();
                     break;
                 case "C":
                     currExp = "";

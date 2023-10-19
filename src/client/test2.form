@@ -516,7 +516,7 @@
                   <background color="-13354170"/>
                   <font name="Inter Semi Bold" size="18" style="0"/>
                   <foreground color="-4207922"/>
-                  <text value="-"/>
+                  <text value="[-]"/>
                 </properties>
               </component>
               <component id="73cc6" class="javax.swing.JButton" binding="button_abs" custom-create="true">

@@ -79,7 +79,7 @@ public class NewUI {
         button_e = new CustomButton("e", new DisplayPrinter(display, "e"));
         button_dot = new CustomButton(".", new DisplayPrinter(display, "."));
         button_equals = new CustomButton("=", new DisplayPrinter(display, "="));
-        button_negative = new CustomButton("(—)", new DisplayPrinter(display, "—"));
+        button_negative = new CustomButton("[—]", new DisplayPrinter(display, "—"));
         button_clear = new CustomButton("C", new DisplayPrinter(display, "C"));
         button_clspar = new CustomButton(")", new DisplayPrinter(display, " ) "));
         button_opnpar = new CustomButton("(", new DisplayPrinter(display, " ( "));
