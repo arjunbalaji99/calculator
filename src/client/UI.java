@@ -207,19 +207,13 @@ public class UI {
 
             switch (inputChar) {
                 case "=":
-                    ArrayList<String> historyAddition = new ArrayList<>();
-                    historyAddition.add(currExp);
-                    currExp = getResult();
-                    engine.storeAns(currExp);
-                    historyAddition.add(currExp);
-                    history.add(historyAddition);
-                    additionsHistory.clear();
+                    add();
                     break;
                 case "C":
                     currExp = "";
                     break;
                 case "Del":
-                    currExp = deleteLast(currExp);
+                    del();
                     break;
                 case "ans":
                     currExp += engine.getAns();
@@ -240,7 +234,17 @@ public class UI {
             return;
         }
         currExp = trimExpression(currExp);
-        ((JTextArea) refs.get("DisplayText")).setText(currExp);
+        ((JTextArea) refs.get("DisplayText")).setText(Translator.prettifyExpression(currExp));
+    }
+
+    private void add() throws CalculatorException {
+        ArrayList<String> historyAddition = new ArrayList<>();
+        historyAddition.add(currExp);
+        currExp = getResult();
+        engine.storeAns(currExp);
+        historyAddition.add(currExp);
+        history.add(historyAddition);
+        additionsHistory.clear();
     }
 
     private String trimExpression(String currExp) {
@@ -255,16 +259,17 @@ public class UI {
         return currExp;
     }
 
-    private String deleteLast(String currExp) {
-
-        if (currExp.isEmpty()) return currExp;
-        else {
-            if (additionsHistory.isEmpty()) return currExp.substring(0, currExp.length() - 1);
-            String deleteExpression = additionsHistory.get(additionsHistory.size() - 1);
-            int start = currExp.lastIndexOf(deleteExpression);
-            String newExp = currExp.substring(0, start);
-            additionsHistory.remove(additionsHistory.size() - 1);
-            return newExp;
+    private void del() {
+        if (!currExp.isEmpty()) {
+            if (additionsHistory.isEmpty()) {
+                currExp = currExp.substring(0, currExp.length() - 1);
+            }
+            else {
+                String deleteExpression = additionsHistory.get(additionsHistory.size() - 1);
+                int start = currExp.lastIndexOf(deleteExpression);
+                currExp = currExp.substring(0, start);
+                additionsHistory.remove(additionsHistory.size() - 1);
+            }
         }
     }
 
