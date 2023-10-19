@@ -16,7 +16,7 @@ public class RoundedBorder implements Border {
 
 
     public Insets getBorderInsets(Component c) {
-        return new Insets(this.radius+1, this.radius+1, this.radius+2, this.radius);
+        return new Insets(this.radius+5, this.radius+5, this.radius+6, this.radius+4);
     }
 
 
@@ -27,6 +27,7 @@ public class RoundedBorder implements Border {
 
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         g.setColor(this.color);
-        g.drawRoundRect(x, y, width-1, height-1, radius, radius);
+        g.fillRoundRect(x, y, width-1, height-1, radius, radius);
+        g.drawString("TEST", 10, 20);
     }
 }

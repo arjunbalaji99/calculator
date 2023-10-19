@@ -61,7 +61,7 @@ public class UI {
         f.pack();
 
         // f.setSize(500, 700);
-        f.setLocation(200, 300);
+        f.setLocation(100, 200);
         f.setLayout(null);
         f.setVisible(true);
     }
@@ -74,20 +74,17 @@ public class UI {
     private void initializePanels() {
         // Calculator Body
         JPanel container = new JPanel();
-        container.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        container.setBounds(0, 0, 500, 600);
-        container.setLayout(new GridLayout(2, 1));
+        container.setBounds(0, 0, 300, 200);
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
         // Panel that contains the display (shows equation/answers)
         JPanel view = new JPanel();
-        view.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        view.setPreferredSize(new Dimension(500, 250));
-        view.setBackground(Color.WHITE);
+        view.setPreferredSize(new Dimension(300, 250));
+        c.fill = GridBagConstraints.VERTICAL;
 
         // Panel containing the controls
         JPanel buttons = new JPanel();
-        buttons.setBackground(Color.green);
-        buttons.setBounds(0, 250, 500, 250);
 
         // Mount on UI
         container.add(view);
@@ -110,7 +107,7 @@ public class UI {
         display.setLineWrap(true); // Enable text wrapping
         display.setWrapStyleWord(true); // Wrap on word boundaries
         display.setFont(new Font(display.getFont().getName(), Font.PLAIN, 40));
-        display.setSize(new Dimension(480, 500));
+        display.setSize(new Dimension(300, 100));
         refs.put("DisplayText", display);
         refs.get("ViewPanel").add(display);
     }
@@ -124,8 +121,8 @@ public class UI {
 
         // Grid to arrange buttons on
         GridLayout g = new GridLayout();
-        g.setColumns(4);
-        g.setRows(12);
+        g.setColumns(6);
+        g.setRows(8);
 
         buttonPanel.setLayout(g);
 
@@ -139,7 +136,8 @@ public class UI {
             JButton temp = new JButton();
             temp.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
             temp.setBackground(Color.WHITE);
-            temp.setPreferredSize(new Dimension(100, 100));
+            temp.setSize(150, 200);
+            temp.setPreferredSize(new Dimension(50, 50));
             refs.put("Button_" + i, temp);
             temp.setText(i + "");
 
@@ -164,7 +162,8 @@ public class UI {
             JButton temp = new JButton();
             temp.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
             temp.setBackground(Color.WHITE);
-            temp.setSize(100, 200);
+            temp.setSize(150, 200);
+            temp.setPreferredSize(new Dimension(50, 50));
 
             refs.put("Button_" + op, temp);
             temp.setText(removeTokenizers(op));

@@ -10,10 +10,11 @@ public class TestButtons {
         JFrame frame = new JFrame(); // creating instance of JFrame
 
         JButton button = new JButton("TEST!!!!!!"); // creating instance of
-        button.setBackground(new Color(34, 37, 44));
+
+        button.setBackground(new Color(0, 0, 0, 0));
+        button.setForeground(Color.WHITE);
         button.setBounds(150, 200, 220,50); // x axis, y axis, width, height
-        button.setContentAreaFilled(false);
-        button.setBorder(new RoundedBorder(20, Color.BLACK));
+        button.setBorder(new RoundedBorder(20, new Color(95, 99, 108)));
 
         frame.add(button); // adding button in JFrame
         frame.setSize(500, 600); // 400 width and 500 height

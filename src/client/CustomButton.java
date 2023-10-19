@@ -17,7 +17,7 @@ public class CustomButton extends JButton {
 
         setBackground(new Color(52, 59, 70));
         setForeground(Color.WHITE);
-        setBorder(new RoundedBorder(5, Color.BLACK));
+        setBorder(new RoundedBorder(15, Color.BLACK));
 
         addActionListener(new ActionListener() {
             @Override
@@ -26,12 +26,6 @@ public class CustomButton extends JButton {
                 repaint();
             }
         });
-    }
-
-    public CustomButton(String text, Method onClick) {
-        super(text);
-        setForeground(Color.WHITE);
-        setBorder(new RoundedBorder(15, Color.BLACK));
     }
 
     public CustomButton(String text, DisplayPrinter runner) {
