@@ -99,10 +99,20 @@ public class UI {
         c.gridy = 1;
         container.add(buttons, c);
 
+        JPanel historyPanel = new JPanel();
+        historyPanel.setBackground(new Color(65, 72, 83));
+        historyPanel.setForeground(Color.WHITE);
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridheight = 2;
+        historyPanel.setPreferredSize(new Dimension(300, 740));
+        container.add(historyPanel, c);
+
         // Add refs to instance collection
         refs.put("MainPanel", container);
         refs.put("ButtonsPanel", buttons);
         refs.put("ViewPanel", view);
+        refs.put("HistoryPanel", historyPanel);
     }
 
     /**
@@ -132,8 +142,8 @@ public class UI {
 
         // Grid to arrange buttons on
         GridLayout g = new GridLayout();
-        g.setColumns(6);
-        g.setRows(8);
+        g.setColumns(5);
+        g.setRows(9);
         g.setHgap(5);
         g.setVgap(5);
 
@@ -244,6 +254,12 @@ public class UI {
         engine.storeAns(currExp);
         historyAddition.add(currExp);
         history.add(historyAddition);
+
+        JTextPane test = new JTextPane();
+        test.setText(currExp);
+
+        refs.get("HistoryPanel").add(test);
+
         additionsHistory.clear();
     }
 
