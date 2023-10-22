@@ -23,3 +23,11 @@
   </li>
 </ul>
 
+<h2 align='center'>Appearance</h2>
+<h3>Color Theme</h3>
+<p>
+  The color theme is minimalistic slate-gray. 
+  
+  Java swing does not provide enough customization (rounded button insets, hover styles) to fully implement the originally desired appearance.  
+</p>
+
