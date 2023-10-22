@@ -1,1 +1,3 @@
-
+Used the libraries Java.Swing
+Used various stackoverflow links for a few basic bug fixes and code snippets
+Used ChatGPT for some basic Swing learnings
