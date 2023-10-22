@@ -206,7 +206,7 @@ public class Operations {
 
                 default:
                     throw new CalculatorException(
-                            "invalidOperation",
+                            "Invalid Operation Usage: " + opName,
                             "Invalid operation requested for " + opName + " with operands " + Arrays.toString(operands)
                     );
             }
