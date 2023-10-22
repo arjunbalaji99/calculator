@@ -3,6 +3,7 @@ package translator;
 import engine.Engine;
 
 import CalculatorExceptions.CalculatorException;
+import engine.Operations;
 
 import java.util.*;
 
@@ -11,7 +12,8 @@ public class Translator {
     public static ArrayList<String> oneNumberOperators = new ArrayList<>(Arrays.asList("sqrt", "cbrt", "log10", "ln", "abs", "sin", "cos", "tan", "sec", "cot", "arcsin", "arccos", "arctan", "arcsec", "arccsc", "arccot"));
 
     public static void main(String[] args) throws CalculatorException {
-        String input = "abs ( abs ( 55 + 11 ) ) ";
+        String input = "77 π ";
+        System.out.println(Operations.ADD(4.0, Math.PI));
         System.out.println(calculate(input));
     }
     
@@ -81,6 +83,7 @@ public class Translator {
         }
         ArrayList<String> statements = splitStatements(tokens);
         String highestPriorityString = highestPriorityOverall(statements);
+        System.out.println(highestPriorityString);
         double val = Engine.evaluate(highestPriorityString);
         return calculateRecursive(input.replace(highestPriorityString, Double.toString(val)));
     }
@@ -123,7 +126,7 @@ public class Translator {
     }
 
     public static String removeSpecialChars(String input) {
-//        return input.replace("—", "-");
+        // replace negative signs
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) == '—') {
                 if (i > 0 && isNumeric(input.substring(i - 2, i - 1))) {
@@ -134,8 +137,48 @@ public class Translator {
                 }
             }
         }
+
+        // replace e and pi with respective numbers
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == 'π') {
+                // if it is not the first item
+                if (i != 0) {
+                    if (!twoNumberOperators.contains(input.substring(i - 2, i - 1))) {
+                        input = input.substring(0, i) + "* π" + input.substring(i + 1);
+                    }
+                    i += 2;
+                }
+                if (i <= input.length() - 3) {
+                    if (!twoNumberOperators.contains(input.substring(i + 2, i + 3))) {
+                        input = input.substring(0, i) + "π *" + input.substring(i + 1);
+                    }
+                    i += 2;
+                }
+            }
+            else if (input.charAt(i) == 'e') {
+                // if it is not the first item
+                if (i != 0) {
+                    if (!twoNumberOperators.contains(input.substring(i - 2, i - 1))) {
+                        input = input.substring(0, i) + "* e" + input.substring(i + 1);
+                    }
+                    i += 2;
+                    System.out.println(input);
+                }
+                if (i <= input.length() - 3) {
+                    if (!twoNumberOperators.contains(input.substring(i + 2, i + 3))) {
+                        input = input.substring(0, i) + "e *" + input.substring(i + 1);
+                    }
+                    i += 2;
+                    System.out.println(input);
+                }
+            }
+        }
+        input = input.replace("π", "3.141592653589793238");
+        input = input.replace("e", "2.718281828459045235");
         return input;
     }
+
+
 
     public static String prettifyExpression(String currExp) {
         currExp = currExp.replace(" ", "");
