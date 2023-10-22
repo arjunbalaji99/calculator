@@ -1,0 +1,1 @@
+Run Calculator.java file - either through IDE UI or with the commands "javac Calculator.java" and then "java Calculator"
