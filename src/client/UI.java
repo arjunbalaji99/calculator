@@ -178,14 +178,6 @@ public class UI {
                 " cos ( ", " sec ( ", " arccos ( ", " arcsec ( ", " cbrt ( ",
                 " tan ( ", " cot ( ", " arctan ( ", " arccot ( ", " ^ 3 ",
         };
-//        " + ", " - ", " . ", " ( ", "=",
-//                " * ", " / ", " ) ", "C", "Del",
-//                " log10 ( ", " ln ( ", " e ", " abs ( ", " ^ ( ",
-//                " % ", "[—]", " ^ 2 ", " sqrt ( ", " ^ 3 ",
-//                " cbrt ( ", "ans", " sin ( ", " cos ( ", " tan ( ",
-//                " sec ( ", " csc ( ", " cot ( ", " arcsin ( ", " arccos ( ",
-//                " arctan ( ", " arcsec ( ", " arccsc ( ", " arccot ( ", " π ",
-
 
         for (String op : ops) {
             CustomButton temp = new CustomButton(removeTokenizers(op));
