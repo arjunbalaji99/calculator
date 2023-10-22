@@ -200,7 +200,7 @@ public class UI {
 
     private void addOperationButtons(JPanel container) {
         String[] ops = new String[] {
-                " + ", " - ", " . ", "Del", "=",
+                " + ", " - ", ".", "Del", "=",
                 " * ", " / ", " ( ", " ) ", "C",
                 " ans ", " π ", "[—]", " ^ ( ", " sqrt ( ",
                 " log10 (", " ln ( ", " e ", " % ", " abs ( ",
