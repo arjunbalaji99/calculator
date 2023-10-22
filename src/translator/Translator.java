@@ -12,8 +12,7 @@ public class Translator {
     public static ArrayList<String> oneNumberOperators = new ArrayList<>(Arrays.asList("sqrt", "cbrt", "log10", "ln", "abs", "sin", "cos", "tan", "sec", "cot", "arcsin", "arccos", "arctan", "arcsec", "arccsc", "arccot"));
 
     public static void main(String[] args) throws CalculatorException {
-        String input = "77 π ";
-        System.out.println(Operations.ADD(4.0, Math.PI));
+        String input = "77 ( 88 ) ";
         System.out.println(calculate(input));
     }
     
@@ -23,7 +22,9 @@ public class Translator {
         if (tokens.length < 1) return;
 
         // multiple decimals
-        if (input.length() - input.replace(".", "").length() > 1) throw new CalculatorException("Syntax error: Decimal points");
+        for (String token : tokens) {
+            if (token.length() - token.replace(".", "").length() > 1) throw new CalculatorException("Syntax error: Decimal points");
+        }
 
         // parentheses failure
         int numPars = 0;
@@ -57,6 +58,8 @@ public class Translator {
                 }
             }
             else if (isNumeric(tokens[i]) && oneNumberOperators.contains(tokens[i + 1])) timesIndex.add(i);
+            else if (i != tokens.length - 1 && isNumeric(tokens[i]) && tokens[i + 1].equals("(")) timesIndex.add(i);
+            else if (i != tokens.length - 1 && isNumeric(tokens[i]) && oneNumberOperators.contains(tokens[i + 1])) timesIndex.add(i);
         }
         String revisedInput = "";
         for (int i = 0; i < tokens.length; i++) {
@@ -72,6 +75,7 @@ public class Translator {
         input = addMultiplicationSigns(input);
         input = removeSpecialChars(input);
         findErrors(input);
+        System.out.println(input);
         return calculateRecursive(input);
     }
 
@@ -83,7 +87,6 @@ public class Translator {
         }
         ArrayList<String> statements = splitStatements(tokens);
         String highestPriorityString = highestPriorityOverall(statements);
-        System.out.println(highestPriorityString);
         double val = Engine.evaluate(highestPriorityString);
         return calculateRecursive(input.replace(highestPriorityString, Double.toString(val)));
     }
@@ -162,14 +165,12 @@ public class Translator {
                         input = input.substring(0, i) + "* e" + input.substring(i + 1);
                     }
                     i += 2;
-                    System.out.println(input);
                 }
                 if (i <= input.length() - 3) {
                     if (!twoNumberOperators.contains(input.substring(i + 2, i + 3))) {
                         input = input.substring(0, i) + "e *" + input.substring(i + 1);
                     }
                     i += 2;
-                    System.out.println(input);
                 }
             }
         }
