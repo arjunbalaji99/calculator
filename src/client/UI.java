@@ -20,6 +20,8 @@ import javax.swing.text.StyledDocument;
 
 public class UI {
 
+    static final int HISTORY_PANEL_WIDTH = 500;
+
     JFrame f;
 
     /**
@@ -112,13 +114,13 @@ public class UI {
         // Justify items to the top of the panel.
         this.gbl = new GridBagLayout();
         gbl.columnWidths = new int[] {0};
-        gbl.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gbl.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gbl.columnWeights = new double[] {0.0};
-        gbl.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gbl.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         historyPanel.setLayout(gbl);
         historyPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         JScrollPane scrollPane = new JScrollPane(historyPanel);
-        scrollPane.setPreferredSize(new Dimension(300, 740));
+        scrollPane.setPreferredSize(new Dimension(HISTORY_PANEL_WIDTH, 740));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -126,7 +128,7 @@ public class UI {
         c.gridx = 1;
         c.gridy = 0;
         c.gridheight = 2;
-        historyPanel.setPreferredSize(new Dimension(300, 740));
+        historyPanel.setPreferredSize(new Dimension(HISTORY_PANEL_WIDTH, 740));
         container.add(scrollPane, c);
 
         // Add refs to instance collection
@@ -303,7 +305,7 @@ public class UI {
             c.gridy = history.size() - 1;
             c.ipady = 10;
             c.fill = GridBagConstraints.HORIZONTAL;
-            c.anchor = GridBagConstraints.NORTH;
+            c.anchor = GridBagConstraints.SOUTH;
 
             historyItem.setText(historyAddition.get(0) + " = " + historyAddition.get(1));
             historyItem.setEditable(false);
@@ -311,7 +313,7 @@ public class UI {
             historyItem.setForeground(Color.WHITE);
             historyItem.setBorder(new RoundedBorder(10, new Color(245, 252, 255, 50)));
             historyItem.setFont(new Font(historyItem.getFont().getName(), Font.PLAIN, 20));
-            historyItem.setPreferredSize(new Dimension(300, 50));
+            historyItem.setPreferredSize(new Dimension(HISTORY_PANEL_WIDTH, 50));
 
             // On click, set the display to the expression
             historyItem.addMouseListener(new java.awt.event.MouseAdapter() {

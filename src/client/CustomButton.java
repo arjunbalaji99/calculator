@@ -20,6 +20,13 @@ public class CustomButton extends JButton {
         setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         setBorder(new RoundedBorder(15, new Color(220, 224, 230)));
 
+
+        // lower padding
+        setMargin(new Insets(0, 0, 0, 0));
+
+        // text size set
+        setFont(new Font("Arial", Font.BOLD, 15));
+
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
