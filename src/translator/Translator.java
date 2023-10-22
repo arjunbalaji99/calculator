@@ -11,11 +11,11 @@ public class Translator {
     public static ArrayList<String> twoNumberOperators = new ArrayList<>(Arrays.asList("+", "-", "*", "/", "%", "^"));
     public static ArrayList<String> oneNumberOperators = new ArrayList<>(Arrays.asList("sqrt", "cbrt", "log10", "ln", "abs", "sin", "cos", "tan", "sec", "cot", "arcsin", "arccos", "arctan", "arcsec", "arccsc", "arccot"));
 
-    public static void main(String[] args) throws CalculatorException {
-        String input = "77 ( 88 ) ";
-        System.out.println(calculate(input));
-    }
-    
+    /**
+     * Checks for errors in the input
+     * @param input the input string
+     * @throws CalculatorException if there is an error
+     */
     public static void findErrors(String input) throws CalculatorException {
         String[] tokens = input.split(" ");
 
@@ -48,6 +48,11 @@ public class Translator {
         }
     }
 
+    /**
+     * Adds multiplication signs to the input
+     * @param input the input string
+     * @return the revised input string
+     */
     public static String addMultiplicationSigns(String input) {
         String[] tokens = input.split(" ");
         ArrayList<Integer> timesIndex = new ArrayList<>();
@@ -71,6 +76,12 @@ public class Translator {
         return revisedInput;
     }
 
+    /**
+     * Calculates the input based on the order of operations
+     * @param input the input string
+     * @return the calculated value
+     * @throws CalculatorException if there is an error
+     */
     public static String calculate(String input) throws CalculatorException {
         input = addMultiplicationSigns(input);
         input = removeSpecialChars(input);
@@ -79,6 +90,12 @@ public class Translator {
         return calculateRecursive(input);
     }
 
+    /**
+     * Calculates the input recursively, going through the order of operations
+     * @param input the current input string
+     * @return the calculated value
+     * @throws CalculatorException if there is an error
+     */
     public static String calculateRecursive(String input) throws CalculatorException {
         input = lookForParentheses(input);
         String[] tokens = input.split(" ");
@@ -91,6 +108,12 @@ public class Translator {
         return calculateRecursive(input.replace(highestPriorityString, Double.toString(val)));
     }
 
+    /**
+     * Looks for parentheses in the input and calculates the value inside
+     * @param input the input string
+     * @return the revised input string
+     * @throws CalculatorException if there is an error
+     */
     public static String lookForParentheses(String input) throws CalculatorException {
         String[] tokens = input.split(" ");
         for (int i = 0; i < tokens.length; i++) {
@@ -114,6 +137,11 @@ public class Translator {
         return input;
     }
 
+    /**
+     * Splits the input into statements
+     * @param tokens the input string
+     * @return ArrayList of statements (strings)
+     */
     public static ArrayList<String> splitStatements(String[] tokens) {
         ArrayList<String> statements = new ArrayList<>();
         for (int i = 0; i < tokens.length - 1; i++) {
@@ -128,6 +156,11 @@ public class Translator {
         return statements;
     }
 
+    /**
+     * Removes special characters from the input
+     * @param input the input string
+     * @return the revised input string
+     */
     public static String removeSpecialChars(String input) {
         // replace negative signs
         for (int i = 0; i < input.length(); i++) {
@@ -179,8 +212,11 @@ public class Translator {
         return input;
     }
 
-
-
+    /**
+     * Prettifies the expression by adding/removing spaces where necessary
+     * @param currExp the current expression
+     * @return the prettified expression
+     */
     public static String prettifyExpression(String currExp) {
         currExp = currExp.replace(" ", "");
         for (int i = 1; i < currExp.length(); i++) {
@@ -237,6 +273,11 @@ public class Translator {
         }
     }
 
+    /**
+     * Finds the highest priority statement in a list of statements
+     * @param statements the list of statements
+     * @return the highest priority statement
+     */
     public static String highestPriorityOverall(List<String> statements) {
         String highestPriorityString = statements.get(0);
         for (int i = 1; i < statements.size(); i++) {

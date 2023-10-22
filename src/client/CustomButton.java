@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Custom button class for calculator UI
+ * Rounded corners, custom colors, and custom font
+ */
 public class CustomButton extends JButton {
 
     // Stores current click state, for styling
@@ -12,6 +16,11 @@ public class CustomButton extends JButton {
     public static final int BUTTON_HEIGHT = 60;
     private boolean clicked;
 
+    /**
+     * Constructor for custom button
+     * use addMouseListener on instance to add click listener
+     * @param text Display text for button
+     */
     public CustomButton(String text) {
         super(text);
 

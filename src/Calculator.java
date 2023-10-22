@@ -7,7 +7,7 @@ public class Calculator {
     /**
      * Run this with no args to start the calculator app.
      *
-     * @param args idk
+     * @param args none (ignored)
      */
     public static void main(String[] args) {
         UI ui = new UI();

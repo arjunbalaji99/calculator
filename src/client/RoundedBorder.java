@@ -3,6 +3,9 @@ package client;
 import javax.swing.border.Border;
 import java.awt.*;
 
+/**
+ * Rounded border class for buttons and history text panels
+ */
 public class RoundedBorder implements Border {
 
     private int radius;
