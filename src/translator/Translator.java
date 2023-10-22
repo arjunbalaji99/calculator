@@ -23,26 +23,26 @@ public class Translator {
         if (tokens.length < 1) return;
 
         // multiple decimals
-        if (input.length() - input.replace(".", "").length() > 1) throw new CalculatorException("decimals");
+        if (input.length() - input.replace(".", "").length() > 1) throw new CalculatorException("Syntax error: Decimal points");
 
         // parentheses failure
         int numPars = 0;
         for (String token : tokens) {
             if (token.equals("(")) numPars++;
             else if (token.equals(")")) numPars--;
-            if (numPars < 0) throw new CalculatorException("parentheses");
+            if (numPars < 0) throw new CalculatorException("Syntax error: Unmatched parentheses");
         }
-        if (numPars > 0) throw new CalculatorException("parentheses");
+        if (numPars > 0) throw new CalculatorException("Syntax error: Unmatched parentheses");
 
         // starting with two number operator
-        if (twoNumberOperators.contains(tokens[0])) throw new CalculatorException("syntax");
+        if (twoNumberOperators.contains(tokens[0])) throw new CalculatorException("Syntax error: Unparametered operator");
         // multiple two number operators in a row or two number operators with parantheses in front
         for (int i = 1; i < tokens.length; i++) {
             if (twoNumberOperators.contains(tokens[i]) && twoNumberOperators.contains(tokens[i - 1])) {
                 throw new CalculatorException("syntax");
             }
             if (twoNumberOperators.contains(tokens[i]) && (tokens[i - 1].equals("("))) {
-                throw new CalculatorException("syntax");
+                throw new CalculatorException("Syntax Error: Unparametered operator");
             }
         }
     }
