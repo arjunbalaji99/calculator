@@ -205,7 +205,7 @@ public class UI {
                 " + ", " - ", ".", "Del", "=",
                 " * ", " / ", " ( ", " ) ", "C",
                 " ans ", " π ", "[—]", " ^ ( ", " sqrt ( ",
-                " log10 (", " ln ( ", " e ", " % ", " abs ( ",
+                " log10 (", " ln ( ", " ℯ ", " % ", " abs ( ",
                 " sin ( ", "csc ( ", " arcsin ( ", " arccsc ( ", " ^ 2 ",
                 " cos ( ", " sec ( ", " arccos ( ", " arcsec ( ", " cbrt ( ",
                 " tan ( ", " cot ( ", " arctan ( ", " arccot ( ", " ^ 3 ",
