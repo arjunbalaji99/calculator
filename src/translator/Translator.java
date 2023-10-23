@@ -191,24 +191,24 @@ public class Translator {
                     i += 2;
                 }
             }
-            else if (input.charAt(i) == 'e') {
+            else if (input.charAt(i) == 'ℯ') {
                 // if it is not the first item
                 if (i != 0) {
                     if (!twoNumberOperators.contains(input.substring(i - 2, i - 1))) {
-                        input = input.substring(0, i) + "* e" + input.substring(i + 1);
+                        input = input.substring(0, i) + "* ℯ" + input.substring(i + 1);
                     }
                     i += 2;
                 }
                 if (i <= input.length() - 3) {
                     if (!twoNumberOperators.contains(input.substring(i + 2, i + 3))) {
-                        input = input.substring(0, i) + "e *" + input.substring(i + 1);
+                        input = input.substring(0, i) + "ℯ *" + input.substring(i + 1);
                     }
                     i += 2;
                 }
             }
         }
         input = input.replace("π", "3.141592653589793238");
-        input = input.replace("e", "2.718281828459045235");
+        input = input.replace("ℯ", "2.718281828459045235");
         return input;
     }
 
